@@ -30,7 +30,7 @@ public class UnitTest1 // TODO: rename this class to something more meaningful
 
     [TestMethod]
     [DataRow("3+4+5+2", "14")]
-    public void ProcessBidmasExceptBrackets(string input, string expected)
+    public void AddManyNumbers(string input, string expected)
     {
         // Act
         string actual = MathCalculator.CalculateAdditions(input);
@@ -44,6 +44,17 @@ public class UnitTest1 // TODO: rename this class to something more meaningful
     [DataRow("20-10", "10")]
     [DataRow("200-77.5", "122.5")]
     public void SubtractTwoNumbers(string input, string expected)
+    {
+        // Act
+        string actual = MathCalculator.CalculateFirstInstanceOfNumberMinusNumber(input);
+
+        // Assert
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
+    [DataRow("3-4-5-2", "-8")]
+    public void SubtractManyNumbers(string input, string expected)
     {
         // Act
         string actual = MathCalculator.CalculateSubtractions(input);
