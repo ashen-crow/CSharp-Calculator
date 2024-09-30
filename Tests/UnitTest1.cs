@@ -149,4 +149,27 @@ public class UnitTest1 // TODO: rename this class to something more meaningful
         // Assert
         Assert.AreEqual(expected, actual);
     }
+
+    [TestMethod]
+    [DataRow("ABS(-70)", "70")]
+    [DataRow("ABS(70)", "70")]
+    public void CalculateFirstInstanceOfSingleNumberAbsolute(string input, string expected)
+    {
+        // Act
+        var actual = MathCalculator.CalculateFirstInstanceOfSingleNumberAbsolute(input);
+
+        // Assert
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
+    [DataRow("ABS(70+40)", true)]
+    public void IsMatchOfMiniEquationAbsolute(string input, bool expected)
+    {
+        // Act
+        bool actual = BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input);
+
+        // Assert
+        Assert.AreEqual(expected, actual);
+    }
 }

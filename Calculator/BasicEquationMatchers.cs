@@ -11,10 +11,22 @@ public static class BasicEquationMatchers
         ).IsMatch(input);
     }
 
-    public static bool IsMatchOfNumberMinusNumberIncludesNegativeNumbers(string input)
-    {
-        throw new NotImplementedException();
-    }
+    ///// TODO: Refactor this:
+    ///public static bool IsMatchOfNumberDividedByNumberIncludesNegativeNumbers(string input)
+    ///{
+    ///    // TODO: Build a regex whose second operand has an optional negative sign
+    ///
+    ///    // Scenario: 3/4
+    ///    var a = new Regex(
+    ///        $@"{MathCalculator.numberSubPattern}{MathCalculator.escapedDivideSign}{MathCalculator.numberSubPattern}"
+    ///    ).IsMatch(input);
+    ///    // Scenario: -3/4
+    ///    var b = new Regex(
+    ///        $@"([\(\)]{MathCalculator.escapedMinusSign}){MathCalculator.numberSubPattern}{MathCalculator.escapedDivideSign}{MathCalculator.numberSubPattern}"
+    ///    ).IsMatch(input);
+    ///    // Scenario: 3/-4
+    ///    // Scenario: -3/-4
+    ///}
 
     public static bool IsMatchOfNumberMinusNumber(string input)
     {
@@ -41,6 +53,15 @@ public static class BasicEquationMatchers
     {
         return new Regex(
             $@"{MathCalculator.numberSubPattern}{MathCalculator.escapedModuloSign}{MathCalculator.numberSubPattern}"
+        ).IsMatch(input);
+    }
+
+    public static bool IsMatchOfSingleNumberAbsolute(string input)
+    {
+        //return new Regex(@"ABS\([\d\.]+\)"+MathCalculator.numberSubPatternWithOptionalNegative+"", RegexOptions.IgnoreCase).IsMatch(input);
+        return new Regex(
+            @"ABS\(" + MathCalculator.numberSubPatternWithOptionalNegative + @"\)",
+            RegexOptions.IgnoreCase
         ).IsMatch(input);
     }
 }
