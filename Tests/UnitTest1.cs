@@ -4,7 +4,7 @@ namespace Tests;
 
 [TestClass]
 public class UnitTest1 // TODO: rename this class to something more meaningful
-{
+{ // TODO: Split this down into feature-centric test classes
     // Add
 
     [TestMethod]
@@ -16,6 +16,18 @@ public class UnitTest1 // TODO: rename this class to something more meaningful
         string actual = MathCalculator.CalculateFirstInstanceOfNumberPlusNumber(input);
 
         // Assert
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
+    [DataRow("-30+20", "-10")]
+    [DataRow("-100+2", "-98")]
+    [DataRow("-100+200", "100")]
+    public void AddTwoNumbersHandlesNegatives(string input, string expected)
+    {
+        string actual = MathCalculator.CalculateFirstInstanceOfNumberPlusNumberIncludingNegatives(
+            input
+        );
         Assert.AreEqual(expected, actual);
     }
 
@@ -150,6 +162,8 @@ public class UnitTest1 // TODO: rename this class to something more meaningful
         Assert.AreEqual(expected, actual);
     }
 
+    // Absolute: basic
+
     [TestMethod]
     [DataRow("ABS(-70)", "70")]
     [DataRow("ABS(70)", "70")]
@@ -163,11 +177,42 @@ public class UnitTest1 // TODO: rename this class to something more meaningful
     }
 
     [TestMethod]
-    [DataRow("ABS(70+40)", true)]
-    public void IsMatchOfMiniEquationAbsolute(string input, bool expected)
+    [DataRow("ABS(-60)", true)]
+    [DataRow("ABS(-100000)", true)]
+    [DataRow("ABS(100000)", true)]
+    [DataRow("ABS(0)", true)]
+    [DataRow("", false)]
+    [DataRow("    ", false)]
+    public void IsMatchOfSingleNumberAbsolute(string input, bool expected)
     {
         // Act
         bool actual = BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input);
+
+        // Assert
+        Assert.AreEqual(expected, actual);
+    }
+
+    // Absolute: advanced
+
+    [TestMethod]
+    [DataRow("ABS(70+40)", "110")]
+    [DataRow("ABS(70-100)", "-30")]
+    public void CalculateFirstInstanceOfEquationAbsolute(string input, string expected)
+    {
+        // Act
+        var actual = MathCalculator.CalculateFirstInstanceOfBasicEquationAbsolute(input);
+
+        // Assert
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
+    [DataRow("ABS(70+40)", true)]
+    [DataRow("ABS(70-100)", true)]
+    public void IsMatchOfAdvancedAbsolute(string input, bool expected)
+    {
+        // Act
+        bool actual = BasicEquationMatchers.IsMatchOfAdvancedAbsolute(input);
 
         // Assert
         Assert.AreEqual(expected, actual);
