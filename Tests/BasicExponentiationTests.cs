@@ -41,4 +41,12 @@ public class BasicExponentiationTests
         // Assert
         Assert.AreEqual(expected, actual);
     }
+
+    [TestMethod]
+    [DataRow("2^2^2^2", "65536")]
+    public void CalculateIndicesCorrectly(string input, string expected)
+    {
+        string actual = MathCalculator.CalculateIndicesCorrectly(input);
+        Assert.AreEqual(expected, actual);
+    }
 }

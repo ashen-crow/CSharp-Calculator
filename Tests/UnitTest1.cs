@@ -69,6 +69,17 @@ public class UnitTest1 // TODO: rename this class to something more meaningful
     }
 
     [TestMethod]
+    [DataRow("-2-7", "-9")]
+    [DataRow("-330.67-30.03", "-360.7")]
+    public static void SubtractTwoNumbersHandlesNegatives(string input, string expected)
+    {
+        string actual = MathCalculator.CalculateFirstInstanceOfNumberMinusNumberIncludingNegatives(
+            input
+        );
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
     [DataRow("3-4", true)]
     public void IsMatchOfNumberMinusNumber(string input, bool expected)
     {
@@ -84,7 +95,7 @@ public class UnitTest1 // TODO: rename this class to something more meaningful
     public void SubtractManyNumbers(string input, string expected)
     {
         // Act
-        string actual = MathCalculator.CalculateSubtractions(input);
+        string actual = MathCalculator.CalculateSubtractionsAllowsForNegatives(input);
 
         // Assert
         Assert.AreEqual(expected, actual);

@@ -9,6 +9,13 @@ public static class BasicEquationMatchers
         RegexOptions.IgnoreCase
     );
 
+    public static readonly Regex numberMinusNumberAllowsNegativesPattern = new Regex(
+        MathCalculator.startOfStringOrLineOrBracketedExpressionPattern
+            + MathCalculator.numberSubPatternWithOptionalNegative
+            + MathCalculator.escapedMinusSign
+            + MathCalculator.numberSubPattern
+    );
+
     public static readonly Regex AdvancedAbsPattern = new Regex(
         @"ABS\("
             + MathCalculator.numberSubPattern
@@ -25,28 +32,16 @@ public static class BasicEquationMatchers
         ).IsMatch(input);
     }
 
-    ///// TODO: Refactor this:
-    ///public static bool IsMatchOfNumberDividedByNumberIncludesNegativeNumbers(string input)
-    ///{
-    ///    // TODO: Build a regex whose second operand has an optional negative sign
-    ///
-    ///    // Scenario: 3/4
-    ///    var a = new Regex(
-    ///        $@"{MathCalculator.numberSubPattern}{MathCalculator.escapedDivideSign}{MathCalculator.numberSubPattern}"
-    ///    ).IsMatch(input);
-    ///    // Scenario: -3/4
-    ///    var b = new Regex(
-    ///        $@"([\(\)]{MathCalculator.escapedMinusSign}){MathCalculator.numberSubPattern}{MathCalculator.escapedDivideSign}{MathCalculator.numberSubPattern}"
-    ///    ).IsMatch(input);
-    ///    // Scenario: 3/-4
-    ///    // Scenario: -3/-4
-    ///}
-
     public static bool IsMatchOfNumberMinusNumber(string input)
     {
         return new Regex(
             $@"{MathCalculator.numberSubPattern}{MathCalculator.escapedMinusSign}{MathCalculator.numberSubPattern}"
         ).IsMatch(input);
+    }
+
+    public static bool IsMatchOfNumberMinusNumberAllowsNegatives(string input)
+    {
+        return numberMinusNumberAllowsNegativesPattern.IsMatch(input);
     }
 
     public static bool IsMatchOfNumberMultipliedByNumber(string input)
@@ -72,7 +67,6 @@ public static class BasicEquationMatchers
 
     public static bool IsMatchOfSingleNumberAbsolute(string input)
     {
-        //return new Regex(@"ABS\([\d\.]+\)"+MathCalculator.numberSubPatternWithOptionalNegative+"", RegexOptions.IgnoreCase).IsMatch(input);
         return singleNumberAbsolutePattern.IsMatch(input);
     }
 
@@ -91,7 +85,7 @@ public static class BasicEquationMatchers
     public static bool IsMatchOfNumberExponentiatedByNumber(string input)
     {
         return new Regex(
-            $@"{MathCalculator.numberSubPattern}{MathCalculator.escapedExponentiationSign}{MathCalculator.numberSubPattern}"
+            $@"{MathCalculator.numberSubPattern}({MathCalculator.escapedExponentiationSign}{MathCalculator.numberSubPattern})+"
         ).IsMatch(input);
     }
 

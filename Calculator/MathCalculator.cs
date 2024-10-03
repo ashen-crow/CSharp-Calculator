@@ -5,8 +5,15 @@ namespace Calculator;
 public static class MathCalculator
 {
     public static readonly string startOfStringOrLineOrBracketedExpressionPattern = @"(^|\()";
-    public static readonly string numberSubPattern = @"([0-9]+\.)*[0-9]+";
-    public static readonly string numberSubPatternWithOptionalNegative = @"-?([0-9]+\.)*[0-9]+";
+    public static readonly string numberSubPattern = @"(\d+\.)*\d+";
+    public static readonly string numberSubPatternWithOptionalNegative = @"-?(\d+\.)*\d+";
+    public static readonly string numberSubPatternWithOptionalNegative_TheCorrectWay =
+        // TODO: Implement this and remove brackets from captured values once implemented:
+        // This version looks for a minus at the start of a string or a bracketed statement
+        @"((^|\())-)?(\d+\.)*\d+";
+
+    // (?:^|[\(])(-?\d+)
+
     public static readonly string escapedPlusSign = @"\+";
     public static readonly string escapedMinusSign = @"\-";
     public static readonly string escapedMultiplySign = @"\*";
@@ -102,6 +109,16 @@ public static class MathCalculator
         return input;
     }
 
+    public static string CalculateSubtractionsAllowsForNegatives(string input)
+    {
+        while (BasicEquationMatchers.IsMatchOfNumberMinusNumberAllowsNegatives(input))
+        {
+            input = CalculateFirstInstanceOfNumberMinusNumberIncludingNegatives(input);
+            Console.WriteLine(input);
+        }
+        return input;
+    }
+
     public static string CalculateMultiplications(string input)
     {
         while (BasicEquationMatchers.IsMatchOfNumberMultipliedByNumber(input))
@@ -124,9 +141,20 @@ public static class MathCalculator
 
     public static string CalculateIndices(string input)
     {
+        //while (BasicEquationMatchers.IsMatchOfNumberExponentiatedByNumber(input))
+        //{
+        //    input = CalculateFirstInstanceOfNumberExponentiatedByNumber(input);
+        //    Console.WriteLine(input);
+        //}
+        //return input;
+        return CalculateIndicesCorrectly(input);
+    }
+
+    public static string CalculateIndicesCorrectly(string input)
+    {
         while (BasicEquationMatchers.IsMatchOfNumberExponentiatedByNumber(input))
         {
-            input = CalculateFirstInstanceOfNumberExponentiatedByNumber(input);
+            input = CalculateFirstInstanceOfNumberExponentiatedByNumberCorrectly(input);
             Console.WriteLine(input);
         }
         return input;
@@ -163,6 +191,7 @@ public static class MathCalculator
 
     public static string CalculateFirstInstanceOfNumberMinusNumber(string input)
     {
+        // TODO: Implement allowing negative numbers here, as this is not currently allowed
         input = input.ToUpper();
         input = input.Replace(" ", "");
         var firstMatchOfNumberPlusNumber = new Regex(
@@ -225,19 +254,46 @@ public static class MathCalculator
         input = input.ToUpper();
         input = input.Replace(" ", "");
         char symbol = '^';
-        var firstMatchOfNumberPlusNumber = new Regex(
-            $@"{numberSubPattern}{escapedExponentiationSign}{numberSubPattern}"
-        ).Match(input);
+        var matchesOfNumberPlusNumber = new Regex(
+            $@"{numberSubPattern}({escapedExponentiationSign}{numberSubPattern})+"
+        ).Matches(input);
+        var firstMatchOfNumberPlusNumber = matchesOfNumberPlusNumber[^1].Value;
         Console.WriteLine(
-            $"Found first match of number {symbol} number: " + firstMatchOfNumberPlusNumber.Value
+            $"Found last match of number {symbol} number: " + firstMatchOfNumberPlusNumber
         );
-        string[] numbers = firstMatchOfNumberPlusNumber.Value.Split(symbol);
+        string[] numbers = firstMatchOfNumberPlusNumber.Split(symbol);
         double number1 = double.Parse(numbers[0]);
         double number2 = double.Parse(numbers[1]);
         double result = Math.Pow(number1, number2);
         input = ReplacerUtility.ReplaceOnlyLastInstanceOfSubstring(
             input,
-            firstMatchOfNumberPlusNumber.Value,
+            firstMatchOfNumberPlusNumber,
+            result.ToString()
+        );
+        //input = input.Replace(firstMatchOfNumberPlusNumber.Value, result.ToString());
+        return input;
+    }
+
+    private static string CalculateFirstInstanceOfNumberExponentiatedByNumberCorrectly(string input)
+    {
+        input = input.ToUpper();
+        input = input.Replace(" ", "");
+        char symbol = '^';
+        var matchesOfNumberPlusNumber = new Regex(
+            $@"{numberSubPattern}({escapedExponentiationSign}{numberSubPattern})+"
+        ).Match(input);
+        var firstMatchOfNumberPlusNumber = matchesOfNumberPlusNumber.Value;
+        Console.WriteLine(
+            $"Found last match of number {symbol} number: " + firstMatchOfNumberPlusNumber
+        );
+        string[] numbers = firstMatchOfNumberPlusNumber.Split(symbol);
+        double number1 = double.Parse(numbers[numbers.Length - 2]);
+        double number2 = double.Parse(numbers[numbers.Length - 1]);
+        double result = Math.Pow(number1, number2);
+        var toBeReplaced = $"{number1}^{number2}";
+        input = ReplacerUtility.ReplaceOnlyLastInstanceOfSubstring(
+            input,
+            toBeReplaced,
             result.ToString()
         );
         //input = input.Replace(firstMatchOfNumberPlusNumber.Value, result.ToString());
@@ -306,7 +362,7 @@ public static class MathCalculator
             startOfStringOrLineOrBracketedExpressionPattern
                 + numberSubPatternWithOptionalNegative
                 + allOperatorsEscaped
-                + numberSubPatternWithOptionalNegative
+                + numberSubPattern
         );
         var firstMatchOfNumberPlusNumber = numberPlusNumberWithOptionalFirstNegativeNumberPattern
             .Match(input)
@@ -314,17 +370,56 @@ public static class MathCalculator
         //var firstMatchOfNumberPlusNumber = new Regex(
         //    $@"{numberSubPatternWithOptionalNegative}{escapedPlusSign}{numberSubPatternWithOptionalNegative}"
         //).Match(input);
-        firstMatchOfNumberPlusNumber = ReplacerUtility.ReplaceOnlyFirstInstanceOfSubstring(
+        firstMatchOfNumberPlusNumber = ReplacerUtility.RemoveOnlyFirstInstanceOfSubstring(
             firstMatchOfNumberPlusNumber,
-            "(",
-            string.Empty
+            "("
         );
         Console.WriteLine("Found first match of number + number: " + firstMatchOfNumberPlusNumber);
         string[] numbers = firstMatchOfNumberPlusNumber.Split('+');
-        double number1 = double.Parse(numbers[0]);
-        double number2 = double.Parse(numbers[1]);
-        double sum = number1 + number2;
+        // double number1 = double.Parse(numbers[0]);
+        // double number2 = double.Parse(numbers[1]);
+        // double sum = number1 + number2;
+        double sum = MathsFuncs.AddStringifiedNumbers(numbers[0], numbers[1]);
         input = input.Replace(firstMatchOfNumberPlusNumber, sum.ToString());
+        return input;
+    }
+
+    public static string CalculateFirstInstanceOfNumberMinusNumberIncludingNegatives(string input)
+    {
+        input = input.Replace(" ", "");
+        input = input.Replace("--", "+");
+        input = input.Replace("++", "+");
+        input = input.Replace("+-", "-");
+        input = input.Replace("+-", "-");
+        ///var numberMinusNumberWithOptionalFirstNegativeNumberPattern = new Regex(
+        ///    startOfStringOrLineOrBracketedExpressionPattern
+        ///        + numberSubPatternWithOptionalNegative
+        ///        + allOperatorsEscaped
+        ///        + numberSubPattern
+        ///);
+        var firstMatchOfNumberMinusNumber = BasicEquationMatchers
+            .numberMinusNumberAllowsNegativesPattern.Match(input)
+            .Value;
+        //var firstMatchOfNumberPlusNumber = new Regex(
+        //    $@"{numberSubPatternWithOptionalNegative}{escapedPlusSign}{numberSubPatternWithOptionalNegative}"
+        //).Match(input);
+        firstMatchOfNumberMinusNumber = ReplacerUtility.RemoveOnlyFirstInstanceOfSubstring(
+            firstMatchOfNumberMinusNumber,
+            "("
+        );
+        string firstNumber = new Regex(numberSubPatternWithOptionalNegative)
+            .Match(firstMatchOfNumberMinusNumber)
+            .Value;
+        var firstMatchSplitByMinusSigns = firstMatchOfNumberMinusNumber.Split('-');
+        string secondNumber = firstMatchSplitByMinusSigns.Last().ToString(); // TODO: FIX! THIS IS THE LINE! GET THE LAST INDEX
+        Console.WriteLine("Found first match of number - number: " + firstMatchOfNumberMinusNumber);
+        //string[] numbers = firstMatchOfNumberMinusNumber.Split('-');
+        //string[] numbers_ = ;
+        // double number1 = double.Parse(numbers[0]);
+        // double number2 = double.Parse(numbers[1]);
+        // double sum = number1 + number2;
+        double sum = MathsFuncs.SubtractStringifiedNumbers(firstNumber, secondNumber);
+        input = input.Replace(firstMatchOfNumberMinusNumber, sum.ToString());
         return input;
     }
 }
