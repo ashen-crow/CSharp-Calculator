@@ -303,14 +303,10 @@ public static class MathCalculator
             double number = double.Parse(parsedInput.Value);
             var result = Math.Abs(number);
             Console.WriteLine($"Calculated ABS string: {input} as {result}");
-            ///////replacedInput = new Regex(numberSubPatternWithOptionalNegative).Replace(
-            ///////    input,
-            ///////    result.ToString()
-            ///////);
             replacedInput = new Regex(
                 @"ABS\(" + numberSubPatternWithOptionalNegative + @"\)",
                 RegexOptions.IgnoreCase
-            ).Replace(input, result.ToString());
+            ).Replace(input, result.ToString()); // TODO: Add regex replacement to ReplacerUtility
             Console.WriteLine($"Replaced input: {replacedInput}");
         }
         return replacedInput;
@@ -319,11 +315,11 @@ public static class MathCalculator
     public static string CalculateFirstInstanceOfBasicEquationAbsolute(string input)
     {
         string result = input;
-        if (BasicEquationMatchers.IsMatchOfAdvancedAbsolute(input))
+        if (BasicEquationMatchers.IsMatchOfAdvancedAbsolute(result))
         {
-            var mutatedInput = ReplacerUtility.RemoveOnlyLastInstanceOfSubstring(input, ")");
-            mutatedInput = ReplacerUtility.RemoveOnlyFirstInstanceOfSubstring(mutatedInput, "ABS(");
-            result = ProcessBidmasExceptBracketsIteratively(mutatedInput);
+            result = ReplacerUtility.RemoveOnlyLastInstanceOfSubstring(result, ")");
+            result = ReplacerUtility.RemoveOnlyFirstInstanceOfSubstring(result, "ABS(");
+            result = ProcessBidmasExceptBracketsIteratively(result);
         }
         return result;
     }
