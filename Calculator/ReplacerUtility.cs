@@ -80,10 +80,16 @@ public static class ReplacerUtility
         return result;
     }
 
-    public static string RemoveOutermostBrackets(string input) // TODO: Unit test!
+    public static string RemoveOutermostBrackets(string input)
     {
         input = RemoveOnlyFirstInstanceOfSubstring(input, "(");
         input = RemoveOnlyLastInstanceOfSubstring(input, ")");
+        return input;
+    }
+
+    public static string RemoveAllSpaces(string input)
+    {
+        input = RemoveAllInstancesOfSubstring(input, " ");
         return input;
     }
 }

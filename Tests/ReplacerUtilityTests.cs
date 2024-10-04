@@ -119,5 +119,13 @@ namespace Tests
             var actual = ReplacerUtility.RemoveOutermostBrackets(input);
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        [DataRow("20     + 2", "20+2")]
+        public void RemoveAllSpaces(string input, string expected)
+        {
+            var actual = ReplacerUtility.RemoveAllSpaces(input);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

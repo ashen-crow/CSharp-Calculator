@@ -13,7 +13,9 @@ public class UnitTest1 // TODO: rename this class to something more meaningful
     public void AddTwoNumbers(string input, string expected)
     {
         // Act
-        string actual = MathCalculator.CalculateFirstInstanceOfNumberPlusNumber(input);
+        string actual = MathCalculator.CalculateFirstInstanceOfNumberPlusNumberIncludingNegatives(
+            input
+        );
 
         // Assert
         Assert.AreEqual(expected, actual);
@@ -47,26 +49,13 @@ public class UnitTest1 // TODO: rename this class to something more meaningful
     public void AddManyNumbers(string input, string expected)
     {
         // Act
-        string actual = MathCalculator.CalculateAdditions(input);
+        string actual = MathCalculator.CalculateAdditionsAndSubtractionsByOrderOfAppearance(input);
 
         // Assert
         Assert.AreEqual(expected, actual);
     }
 
     // Subtract
-
-    [TestMethod]
-    [DataRow("3-4", "-1")]
-    [DataRow("20-10", "10")]
-    [DataRow("200-77.5", "122.5")]
-    public void SubtractTwoNumbers(string input, string expected)
-    {
-        // Act
-        string actual = MathCalculator.CalculateFirstInstanceOfNumberMinusNumber(input);
-
-        // Assert
-        Assert.AreEqual(expected, actual);
-    }
 
     [TestMethod]
     [DataRow("-2-7", "-9")]
