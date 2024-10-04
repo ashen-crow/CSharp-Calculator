@@ -17,13 +17,11 @@ public static class ReplacerUtility
 
     public static string RemoveAllInstancesOfSubstring(string input, string substringToReplace)
     {
-        // TODO: Unit test this!
         return ReplaceAllInstancesOfSubstring(input, substringToReplace, string.Empty);
     }
 
     public static string RemoveOnlyFirstInstanceOfSubstring(string input, string substringToReplace)
     {
-        // TODO: Unit test this!
         return ReplaceOnlyFirstInstanceOfSubstring(input, substringToReplace, string.Empty);
     }
 
@@ -54,7 +52,6 @@ public static class ReplacerUtility
 
     public static string RemoveOnlyLastInstanceOfSubstring(string input, string substringToReplace)
     {
-        // TODO: Unit test this!
         return ReplaceOnlyLastInstanceOfSubstring(input, substringToReplace, string.Empty);
     }
 
@@ -81,5 +78,12 @@ public static class ReplacerUtility
             Console.WriteLine("Substring not found.");
         }
         return result;
+    }
+
+    public static string RemoveOutermostBrackets(string input) // TODO: Unit test!
+    {
+        input = RemoveOnlyFirstInstanceOfSubstring(input, "(");
+        input = RemoveOnlyLastInstanceOfSubstring(input, ")");
+        return input;
     }
 }

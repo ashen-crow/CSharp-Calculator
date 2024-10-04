@@ -165,7 +165,7 @@ public static class MathCalculator
         while (BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input))
         {
             input = CalculateFirstInstanceOfSingleNumberAbsolute(input);
-            System.Console.WriteLine(input);
+            Console.WriteLine(input);
         }
 
         return input;
@@ -367,18 +367,11 @@ public static class MathCalculator
         var firstMatchOfNumberPlusNumber = numberPlusNumberWithOptionalFirstNegativeNumberPattern
             .Match(input)
             .Value;
-        //var firstMatchOfNumberPlusNumber = new Regex(
-        //    $@"{numberSubPatternWithOptionalNegative}{escapedPlusSign}{numberSubPatternWithOptionalNegative}"
-        //).Match(input);
-        firstMatchOfNumberPlusNumber = ReplacerUtility.RemoveOnlyFirstInstanceOfSubstring(
-            firstMatchOfNumberPlusNumber,
-            "("
+        firstMatchOfNumberPlusNumber = ReplacerUtility.RemoveOutermostBrackets(
+            firstMatchOfNumberPlusNumber
         );
         Console.WriteLine("Found first match of number + number: " + firstMatchOfNumberPlusNumber);
         string[] numbers = firstMatchOfNumberPlusNumber.Split('+');
-        // double number1 = double.Parse(numbers[0]);
-        // double number2 = double.Parse(numbers[1]);
-        // double sum = number1 + number2;
         double sum = MathsFuncs.AddStringifiedNumbers(numbers[0], numbers[1]);
         input = input.Replace(firstMatchOfNumberPlusNumber, sum.ToString());
         return input;
@@ -403,9 +396,8 @@ public static class MathCalculator
         //var firstMatchOfNumberPlusNumber = new Regex(
         //    $@"{numberSubPatternWithOptionalNegative}{escapedPlusSign}{numberSubPatternWithOptionalNegative}"
         //).Match(input);
-        firstMatchOfNumberMinusNumber = ReplacerUtility.RemoveOnlyFirstInstanceOfSubstring(
-            firstMatchOfNumberMinusNumber,
-            "("
+        firstMatchOfNumberMinusNumber = ReplacerUtility.RemoveOutermostBrackets(
+            firstMatchOfNumberMinusNumber
         );
         string firstNumber = new Regex(numberSubPatternWithOptionalNegative)
             .Match(firstMatchOfNumberMinusNumber)
@@ -413,13 +405,38 @@ public static class MathCalculator
         var firstMatchSplitByMinusSigns = firstMatchOfNumberMinusNumber.Split('-');
         string secondNumber = firstMatchSplitByMinusSigns.Last().ToString(); // TODO: FIX! THIS IS THE LINE! GET THE LAST INDEX
         Console.WriteLine("Found first match of number - number: " + firstMatchOfNumberMinusNumber);
-        //string[] numbers = firstMatchOfNumberMinusNumber.Split('-');
-        //string[] numbers_ = ;
-        // double number1 = double.Parse(numbers[0]);
-        // double number2 = double.Parse(numbers[1]);
-        // double sum = number1 + number2;
         double sum = MathsFuncs.SubtractStringifiedNumbers(firstNumber, secondNumber);
         input = input.Replace(firstMatchOfNumberMinusNumber, sum.ToString());
+        return input;
+    }
+
+    // Find first match of bracketed number (7) but not ABS(7):
+    public static string SimplifyBracketedOrphanedNumber(string input)
+    {
+        var pattern = new Regex(@$"(?<!ABS)\(\{numberSubPatternWithOptionalNegative}\)");
+        if (pattern.IsMatch(input))
+        {
+            string firstMatch = pattern.Match(input).Value;
+            input = ReplacerUtility.RemoveOutermostBrackets(firstMatch);
+        }
+        return input;
+    }
+
+    public static string ResolveBracketedExpression(string input)
+    {
+        input = input.Replace(" ", "");
+        input = input.Replace("--", "+");
+        input = input.Replace("++", "+");
+        input = input.Replace("+-", "-");
+        input = input.Replace("+-", "-");
+        //var pattern = new Regex(
+        //    @$"\({numberSubPatternWithOptionalNegative}([{allOperatorsEscaped}{numberSubPatternWithOptionalNegative}])+"
+        //);
+        //if (pattern.IsMatch(input))
+        //{
+        input = ReplacerUtility.RemoveOutermostBrackets(input);
+        input = ProcessBidmasExceptBracketsIteratively(input);
+        //}
         return input;
     }
 }
