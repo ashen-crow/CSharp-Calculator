@@ -50,10 +50,12 @@ public static class MathCalculator
             // result = CalculateModulations(result); // TODO: Implement modulo
             // M
             result = CalculateMultiplications(result);
-            // A
-            result = CalculateAdditions(result);
-            // S
-            result = CalculateSubtractions(result);
+            // Addition and Subtraction have equal precedence and are solved by order of appearance
+            //// A
+            //result = CalculateAdditions(result);
+            //// S
+            //result = CalculateSubtractions(result);
+            result = CalculateAdditionsAndSubtractionsByOrderOfAppearance(result);
         }
         return result;
     }
@@ -95,6 +97,59 @@ public static class MathCalculator
         {
             input = CalculateFirstInstanceOfNumberPlusNumber(input);
             Console.WriteLine(input);
+        }
+        return input;
+    }
+
+    public static string CalculateAdditionsAndSubtractionsByOrderOfAppearance(string input)
+    {
+        // Additions and subtractions apparently have equal precedence
+        //and are resoilved by order of appearance
+        var basicAdditionPattern = new Regex(
+            $"{numberSubPatternWithOptionalNegative}{escapedPlusSign}{numberSubPattern}"
+        );
+        var basicSubtractionPattern = new Regex(
+            $"{numberSubPatternWithOptionalNegative}{escapedMinusSign}{numberSubPattern}"
+        );
+
+        while (basicAdditionPattern.IsMatch(input) || basicSubtractionPattern.IsMatch(input))
+        {
+            var additionMatch = basicAdditionPattern.Match(input);
+            var subtractionMatch = basicSubtractionPattern.Match(input);
+            var indexOfFirstAddition = basicAdditionPattern.IsMatch(input)
+                ? additionMatch.Index
+                : int.MaxValue;
+            var indexOfFirstSubtraction = basicSubtractionPattern.IsMatch(input)
+                ? basicSubtractionPattern.Match(input).Index
+                : int.MaxValue;
+            if (indexOfFirstAddition < indexOfFirstSubtraction)
+            {
+                var x = CalculateFirstInstanceOfNumberPlusNumberIncludingNegatives(
+                    additionMatch.Value
+                );
+                input = ReplacerUtility.ReplaceOnlyFirstInstanceOfSubstring(
+                    input,
+                    additionMatch.Value,
+                    x
+                );
+            }
+            else if (indexOfFirstSubtraction < indexOfFirstAddition)
+            {
+                var x = CalculateFirstInstanceOfNumberMinusNumberIncludingNegatives(
+                    subtractionMatch.Value
+                );
+                input = ReplacerUtility.ReplaceOnlyFirstInstanceOfSubstring(
+                    input,
+                    subtractionMatch.Value,
+                    x
+                );
+            }
+            else
+            {
+                throw new InvalidDataException(
+                    "Cannot have simultaneously precedent plus and minus expressions!"
+                );
+            }
         }
         return input;
     }
