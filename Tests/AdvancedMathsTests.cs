@@ -7,6 +7,8 @@ public class AdvancedMathsTests
 {
     [TestMethod]
     [DataRow("2+3-1", "4")]
+    [DataRow("2-3+1", "0")]
+    [DataRow("-2-3+1", "-4")]
     [DataRow("2/4*10", "5")]
     [DataRow("10-ABS(-5)", "5")]
     [DataRow("10*ABS(-5*1/2)", "25")]
