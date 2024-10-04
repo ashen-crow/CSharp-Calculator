@@ -2,9 +2,11 @@ using Calculator;
 
 namespace Tests;
 
+// TODO: add more tests with brackets and negatives!
 [TestClass]
-public class UnitTest1 // TODO: rename this class to something more meaningful
-{ // TODO: Split this down into feature-centric test classes
+public class UncategorisedUnitTests
+{
+    // TODO: Split this down into feature-centric test classes
     // Subtract
 
     [TestMethod]
