@@ -240,7 +240,7 @@ public static class MathCalculator
         input = ReplacerUtility.RemoveAllSpaces(input);
         char symbol = '^';
         var matchesOfNumberPlusNumber = new Regex(
-            $@"{numberSubPattern}({escapedExponentiationSign}{numberSubPattern})+"
+            $@"{numberSubPatternWithOptionalNegative}({escapedExponentiationSign}{numberSubPatternWithOptionalNegative})+"
         ).Matches(input);
         var firstMatchOfNumberPlusNumber = matchesOfNumberPlusNumber[^1].Value;
         Console.WriteLine(

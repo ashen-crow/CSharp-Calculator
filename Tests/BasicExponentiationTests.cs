@@ -10,6 +10,7 @@ public class BasicExponentiationTests
     [TestMethod]
     [DataRow("10^2", "100")]
     [DataRow("3^3", "27")]
+    [DataRow("-3^3", "-27")]
     public void ExponentiationWithOnlyTwoNumbers(string input, string expected)
     {
         // Act
