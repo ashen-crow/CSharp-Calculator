@@ -202,7 +202,7 @@ public static class MathCalculator
             "Found first match of number * number: " + firstMatchOfNumberMultipliedByNumber
         );
         string[] numbers = firstMatchOfNumberMultipliedByNumber.Split('*');
-        double sum = MathsFuncs.MultiplyStringifiedNumbers(numbers[0], numbers[1]);
+        double sum = MathsUtils.MultiplyStringifiedNumbers(numbers[0], numbers[1]);
         input = input.Replace(firstMatchOfNumberMultipliedByNumber, sum.ToString());
         return input;
     }
@@ -218,7 +218,7 @@ public static class MathCalculator
             "Found first match of number / number: " + firstMatchOfNumberDividedByNumber
         );
         string[] numbers = firstMatchOfNumberDividedByNumber.Split('/');
-        double sum = MathsFuncs.DivideStringifiedNumbers(numbers[0], numbers[1]);
+        double sum = MathsUtils.DivideStringifiedNumbers(numbers[0], numbers[1]);
         input = input.Replace(firstMatchOfNumberDividedByNumber, sum.ToString());
         return input;
     }
@@ -242,7 +242,7 @@ public static class MathCalculator
         string[] numbers = firstMatchOfNumberPlusNumber.Split(symbol);
         string number1 = numbers[numbers.Length - 2];
         string number2 = numbers[numbers.Length - 1];
-        double result = MathsFuncs.PowOfStringifiedNumbers(number1, number2);
+        double result = MathsUtils.PowOfStringifiedNumbers(number1, number2);
         var substringToReplace = $"{number1}^{number2}";
         input = ReplacerUtility.ReplaceOnlyLastInstanceOfSubstring(
             input,
@@ -268,7 +268,7 @@ public static class MathCalculator
         if (BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input))
         {
             var capturedInput = BasicEquationMatchers.ExtractSingleNumberFromAbsolute(input);
-            var result = MathsFuncs.AbsOfStringifiedNumber(capturedInput).ToString();
+            var result = MathsUtils.AbsOfStringifiedNumber(capturedInput).ToString();
             Console.WriteLine($"Calculated ABS string: {input} as {result}");
             replacedInput = BasicEquationMatchers.singleNumberAbsolutePattern.Replace(
                 input,
@@ -311,7 +311,7 @@ public static class MathCalculator
         );
         Console.WriteLine("Found first match of number + number: " + firstMatchOfNumberPlusNumber);
         string[] numbers = firstMatchOfNumberPlusNumber.Split('+');
-        double sum = MathsFuncs.AddStringifiedNumbers(numbers[0], numbers[1]);
+        double sum = MathsUtils.AddStringifiedNumbers(numbers[0], numbers[1]);
         input = input.Replace(firstMatchOfNumberPlusNumber, sum.ToString());
         return input;
     }
@@ -335,7 +335,7 @@ public static class MathCalculator
         var firstMatchSplitByMinusSigns = firstMatchOfNumberMinusNumber.Split('-');
         string secondNumber = firstMatchSplitByMinusSigns[^1].ToString();
         Console.WriteLine("Found first match of number - number: " + firstMatchOfNumberMinusNumber);
-        double sum = MathsFuncs.SubtractStringifiedNumbers(firstNumber, secondNumber);
+        double sum = MathsUtils.SubtractStringifiedNumbers(firstNumber, secondNumber);
         input = input.Replace(firstMatchOfNumberMinusNumber, sum.ToString());
         return input;
     }

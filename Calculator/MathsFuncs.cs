@@ -1,7 +1,7 @@
 namespace Calculator;
 
-public static class MathsFuncs
-{ // TODO: unit test this class!
+public static class MathsUtils
+{
     public static double AddStringifiedNumbers(string a, string b)
     {
         return Add(double.Parse(a), double.Parse(b));
@@ -39,7 +39,6 @@ public static class MathsFuncs
 
     public static double DivideStringifiedNumbers(string a, string b)
     {
-        // TODO: Unit test
         return Divide(double.Parse(a), double.Parse(b));
     }
 
@@ -50,19 +49,16 @@ public static class MathsFuncs
 
     public static double MultiplyStringifiedNumbers(string a, string b)
     {
-        // TODO: Unit test
         return Multiply(double.Parse(a), double.Parse(b));
     }
 
     public static double Pow(double a, double b)
     {
-        // TODO: unit test
         return Math.Pow(a, b);
     }
 
     public static double PowOfStringifiedNumbers(string a, string b)
     {
-        // TODO: unit test
         return Pow(double.Parse(a), double.Parse(b));
     }
 }

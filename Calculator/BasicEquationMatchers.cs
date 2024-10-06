@@ -98,11 +98,8 @@ public static class BasicEquationMatchers
     public static string ExtractSingleNumberFromAbsolute(string input)
     {
         // TODO: Unit test this!
-        // Get match
         input = singleNumberAbsolutePattern.Match(input).Value.ToUpper();
-        //Remove opening bracket and abs
         input = ReplacerUtility.RemoveOnlyFirstInstanceOfSubstring(input, "ABS(");
-        // Remove closing bracket
         input = ReplacerUtility.RemoveOnlyLastInstanceOfSubstring(input, ")");
         return input;
     }
