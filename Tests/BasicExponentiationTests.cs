@@ -11,7 +11,7 @@ public class BasicExponentiationTests
     [DataRow("10^2", "100")]
     [DataRow("3^3", "27")]
     [DataRow("-3^3", "-27")]
-    [DataRow("-3^-3", "-0.03703704")]
+    [DataRow("-3^-3", "-0.037037037037037035")]
     [DataRow("1^-2", "1")]
     public void ExponentiationWithOnlyTwoNumbers(string input, string expected)
     {

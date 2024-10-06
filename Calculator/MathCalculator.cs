@@ -233,21 +233,20 @@ public static class MathCalculator
         input = input.ToUpper();
         input = ReplacerUtility.RemoveAllSpaces(input);
         char symbol = '^';
-        var matchesOfNumberExponentiatedByNumber = new Regex(
-            $@"{numberSubPatternWithOptionalNegative}({escapedExponentiationSign}{numberSubPatternWithOptionalNegative})+"
-        ).Match(input);
+        var matchesOfNumberExponentiatedByNumber =
+            BasicEquationMatchers.numberexponentiatedByNumberPattern.Match(input);
         var firstMatchOfNumberPlusNumber = matchesOfNumberExponentiatedByNumber.Value;
         Console.WriteLine(
             $"Found last match of number {symbol} number: " + firstMatchOfNumberPlusNumber
         );
         string[] numbers = firstMatchOfNumberPlusNumber.Split(symbol);
-        double number1 = double.Parse(numbers[numbers.Length - 2]);
-        double number2 = double.Parse(numbers[numbers.Length - 1]);
-        double result = Math.Pow(number1, number2);
-        var toBeReplaced = $"{number1}^{number2}";
+        string number1 = numbers[numbers.Length - 2];
+        string number2 = numbers[numbers.Length - 1];
+        double result = MathsFuncs.PowOfStringifiedNumbers(number1, number2);
+        var substringToReplace = $"{number1}^{number2}";
         input = ReplacerUtility.ReplaceOnlyLastInstanceOfSubstring(
             input,
-            toBeReplaced,
+            substringToReplace,
             result.ToString()
         );
         return input;
@@ -269,10 +268,7 @@ public static class MathCalculator
         if (BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input))
         {
             var capturedInput = BasicEquationMatchers.ExtractSingleNumberFromAbsolute(input);
-            var parsedInput = new Regex(numberSubPatternWithOptionalNegative)
-                .Match(capturedInput)
-                .Value;
-            var result = MathsFuncs.AbsOfStringifiedNumber(parsedInput).ToString();
+            var result = MathsFuncs.AbsOfStringifiedNumber(capturedInput).ToString();
             Console.WriteLine($"Calculated ABS string: {input} as {result}");
             replacedInput = BasicEquationMatchers.singleNumberAbsolutePattern.Replace(
                 input,
@@ -337,7 +333,7 @@ public static class MathCalculator
             firstMatchOfNumberMinusNumber
         );
         var firstMatchSplitByMinusSigns = firstMatchOfNumberMinusNumber.Split('-');
-        string secondNumber = firstMatchSplitByMinusSigns.Last().ToString();
+        string secondNumber = firstMatchSplitByMinusSigns[^1].ToString();
         Console.WriteLine("Found first match of number - number: " + firstMatchOfNumberMinusNumber);
         double sum = MathsFuncs.SubtractStringifiedNumbers(firstNumber, secondNumber);
         input = input.Replace(firstMatchOfNumberMinusNumber, sum.ToString());
@@ -347,7 +343,7 @@ public static class MathCalculator
     // Find first match of bracketed number (7) but not ABS(7):
     public static string SimplifyBracketedOrphanedNumber(string input)
     {
-        var pattern = new Regex(@$"(?<!ABS)\(\{numberSubPatternWithOptionalNegative}\)");
+        var pattern = BasicEquationMatchers.bracketedOprhanedNumberPattern;
         if (pattern.IsMatch(input))
         {
             string firstMatch = pattern.Match(input).Value;

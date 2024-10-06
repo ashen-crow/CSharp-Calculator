@@ -7,40 +7,6 @@ namespace Tests;
 public class UncategorisedUnitTests
 {
     // TODO: Split this down into feature-centric test classes
-    // Subtract
-
-    [TestMethod]
-    [DataRow("-2-7", "-9")]
-    [DataRow("-330.67-30.03", "-360.7")]
-    public static void SubtractTwoNumbersHandlesNegatives(string input, string expected)
-    {
-        string actual = MathCalculator.CalculateFirstInstanceOfNumberMinusNumberIncludingNegatives(
-            input
-        );
-        Assert.AreEqual(expected, actual);
-    }
-
-    [TestMethod]
-    [DataRow("3-4", true)]
-    public void IsMatchOfNumberMinusNumber(string input, bool expected)
-    {
-        // Act
-        bool actual = BasicEquationMatchers.IsMatchOfNumberMinusNumber(input);
-
-        // Assert
-        Assert.AreEqual(expected, actual);
-    }
-
-    [TestMethod]
-    [DataRow("3-4-5-2", "-8")]
-    public void SubtractManyNumbers(string input, string expected)
-    {
-        // Act
-        string actual = MathCalculator.CalculateSubtractionsAllowsForNegatives(input);
-
-        // Assert
-        Assert.AreEqual(expected, actual);
-    }
 
     // Add and subtract, at equal operator precedence, precede by appearance order
 
@@ -50,54 +16,6 @@ public class UncategorisedUnitTests
     public void CalculateAdditionsAndSubtractionsByOrderOfAppearance(string input, string expected)
     {
         var actual = MathCalculator.CalculateAdditionsAndSubtractionsByOrderOfAppearance(input);
-        Assert.AreEqual(expected, actual);
-    }
-
-    // Multiply
-
-    [TestMethod]
-    [DataRow("3*4", "12")]
-    [DataRow("20.5*10", "205")]
-    public void MultiplyTwoNumbers(string input, string expected)
-    {
-        // Act
-        string actual = MathCalculator.CalculateFirstInstanceOfNumberMultipliedByNumber(input);
-
-        // Assert
-        Assert.AreEqual(expected, actual);
-    }
-
-    [TestMethod]
-    [DataRow("3*4", true)]
-    public void IsMatchOfNumberMultipliedByNumber(string input, bool expected)
-    {
-        // Act
-        bool actual = BasicEquationMatchers.IsMatchOfNumberMultipliedByNumber(input);
-
-        // Assert
-        Assert.AreEqual(expected, actual);
-    }
-
-    [TestMethod]
-    [DataRow("3*4*5*2", "120")]
-    public void MultiplyManyNumbers(string input, string expected)
-    {
-        // Act
-        string actual = MathCalculator.CalculateMultiplications(input);
-
-        // Assert
-        Assert.AreEqual(expected, actual);
-    }
-
-    [TestMethod]
-    [DataRow("-3*2", "-6")]
-    [DataRow("-3*-2", "6")]
-    public void MultiplyManyNumbersHandlesNegatives(string input, string expected)
-    {
-        // Act
-        string actual = MathCalculator.CalculateMultiplications(input);
-
-        // Assert
         Assert.AreEqual(expected, actual);
     }
 

@@ -8,6 +8,10 @@ public static class BasicEquationMatchers
         $@"{MathCalculator.numberSubPatternWithOptionalNegative}({MathCalculator.escapedExponentiationSign}{MathCalculator.numberSubPatternWithOptionalNegative})+"
     );
 
+    public static readonly Regex bracketedOprhanedNumberPattern = new Regex(
+        @$"(?<!ABS)\(\{MathCalculator.numberSubPatternWithOptionalNegative}\)"
+    );
+
     public static readonly Regex firstMatchOfNumberMultipliedByNumber = new Regex(
         $@"{MathCalculator.numberSubPatternWithOptionalNegative}{MathCalculator.escapedMultiplySign}{MathCalculator.numberSubPatternWithOptionalNegative}"
     );
@@ -17,6 +21,10 @@ public static class BasicEquationMatchers
             + MathCalculator.numberSubPatternWithOptionalNegative
             + MathCalculator.allOperatorsEscaped
             + MathCalculator.numberSubPattern
+    );
+
+    public static readonly Regex numberexponentiatedByNumberPattern = new Regex(
+        $@"{MathCalculator.numberSubPatternWithOptionalNegative}({MathCalculator.escapedExponentiationSign}{MathCalculator.numberSubPatternWithOptionalNegative})+"
     );
 
     public static readonly Regex numberDividedByNumberPattern = new Regex(
