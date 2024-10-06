@@ -308,7 +308,7 @@ public static class MathCalculator
         input = input.ToUpper();
         input = ReplacerUtility.RemoveAllSpaces(input);
         input = input.Replace("--", "+");
-        input = input.Replace("++", "+");
+        input = ReplacerUtility.FlattenRepeatedPlusSigns(input);
         input = input.Replace("+-", "-");
         input = input.Replace("+-", "-");
         var numberPlusNumberWithOptionalFirstNegativeNumberPattern =
@@ -330,7 +330,7 @@ public static class MathCalculator
     {
         input = ReplacerUtility.RemoveAllSpaces(input);
         input = input.Replace("--", "+");
-        input = input.Replace("++", "+");
+        input = ReplacerUtility.FlattenRepeatedPlusSigns(input);
         input = input.Replace("+-", "-");
         input = input.Replace("+-", "-");
         var firstMatchOfNumberMinusNumber = BasicEquationMatchers
@@ -366,7 +366,7 @@ public static class MathCalculator
     {
         input = ReplacerUtility.RemoveAllSpaces(input);
         input = input.Replace("--", "+");
-        input = input.Replace("++", "+");
+        input = ReplacerUtility.FlattenRepeatedPlusSigns(input);
         input = input.Replace("+-", "-");
         input = input.Replace("+-", "-");
         input = ReplacerUtility.RemoveOutermostBrackets(input);

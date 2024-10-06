@@ -10,6 +10,10 @@ public static class BasicEquationMatchers
         @$"(?<!{mathsFunctionKeywordsToIgnore})\(\{MathCalculator.numberSubPatternWithOptionalNegative}\)"
     );
 
+    public static readonly Regex repeatedPlusSignPattern = new Regex(
+        $@"{MathCalculator.escapedPlusSign}+"
+    );
+
     public static readonly Regex firstMatchOfNumberMultipliedByNumber = new Regex(
         $@"{MathCalculator.numberSubPatternWithOptionalNegative}{MathCalculator.escapedMultiplySign}{MathCalculator.numberSubPatternWithOptionalNegative}"
     );

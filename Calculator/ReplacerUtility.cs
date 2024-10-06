@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace Calculator;
 
 public static class ReplacerUtility
@@ -89,5 +91,24 @@ public static class ReplacerUtility
     {
         input = RemoveAllInstancesOfSubstring(input, " ");
         return input;
+    }
+
+    public static string ReplaceAllInstancesOfPattern(
+        string input,
+        Regex pattern,
+        string replacement
+    )
+    { // TODO: UNIT TEST
+        return pattern.Replace(input, replacement);
+    }
+
+    public static string RemoveAllInstancesOfPattern(string input, Regex pattern)
+    { // TODO: UNIT TEST
+        return ReplaceAllInstancesOfPattern(input, pattern, string.Empty);
+    }
+
+    public static string FlattenRepeatedPlusSigns(string input)
+    { // TODO: UNIT TEST
+        return ReplaceAllInstancesOfPattern(input, BasicEquationMatchers.repeatedPlusSignPattern, "+");
     }
 }
