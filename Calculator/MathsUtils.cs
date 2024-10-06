@@ -61,4 +61,66 @@ public static class MathsUtils
     {
         return Pow(double.Parse(a), double.Parse(b));
     }
+
+    // TODO: UNIT TEST THE BELOW:
+
+    public static double Round(double a)
+    {
+        return Math.Round(a);
+    }
+
+    public static double RoundStringifiedNumber(string a)
+    {
+        return Round(double.Parse(a));
+    }
+
+    public static double Sqrt(double a)
+    {
+        return Math.Sqrt(a);
+    }
+
+    public static double SqrtOfStringifiedNumber(string a)
+    {
+        return Sqrt(double.Parse(a));
+    }
+
+    public static double Ceil(double a)
+    {
+        return Math.Ceiling(a);
+    }
+
+    public static double CeilOfStringifiedNumber(string a)
+    {
+        return Ceil(double.Parse(a));
+    }
+
+    public static double Floor(double a)
+    {
+        return Math.Floor(a);
+    }
+
+    public static double FloorOfStringifiedNumber(string a)
+    {
+        return Floor(double.Parse(a));
+    }
+
+    public static double Truncate(double a)
+    {
+        return Math.Truncate(a);
+    }
+
+    public static double TruncateOfStringifiedNumber(string a)
+    {
+        return Truncate(double.Parse(a));
+    }
+
+    public static double Modulo(double a, double b)
+    {
+        return a % b;
+    }
+
+    public static double ModuloOfStringifiedNumber(string a, string b)
+    {
+        return Modulo(double.Parse(a), double.Parse(b));
+    }
 }

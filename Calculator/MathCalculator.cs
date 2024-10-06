@@ -28,12 +28,15 @@ public static class MathCalculator
     public static bool MatchesAnyMathsExpression(string input)
     {
         return BasicEquationMatchers.IsMatchOfNumberPlusNumber(input)
+            || BasicEquationMatchers.IsMatchOfNumberExponentiatedByNumber(input)
             || BasicEquationMatchers.IsMatchOfNumberMinusNumber(input)
             || BasicEquationMatchers.IsMatchOfNumberDividedByNumber(input)
             || BasicEquationMatchers.IsMatchOfNumberMultipliedByNumber(input)
             || BasicEquationMatchers.IsMatchOfNumberModuloNumber(input)
             || BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input)
-            || BasicEquationMatchers.IsMatchOfAdvancedAbsolute(input);
+            || BasicEquationMatchers.IsMatchOfAdvancedAbsolute(input)
+            || BasicEquationMatchers.IsMatchOfAdvancedAbsolute(input)
+            || BasicEquationMatchers.IsMatchOfBracketedOrphanedNumber(input);
         // TODO: Implement other things such as brackets etc
     }
 
@@ -43,7 +46,7 @@ public static class MathCalculator
         while (MatchesAnyMathsExpression(result))
         {
             // B
-            //result = CalculateBrackets(result); // TODO: Implement brackets
+            result = SimplifyAllBracketedOrphanedNumbers(result);
             result = CalculateSingleNumberAbsolutes(result);
             result = CalculateBasicEquationAbsolutes(result);
             // I
@@ -54,10 +57,6 @@ public static class MathCalculator
             // M
             result = CalculateMultiplications(result);
             // Addition and Subtraction have equal precedence and are solved by order of appearance
-            //// A
-            //result = CalculateAdditions(result);
-            //// S
-            //result = CalculateSubtractions(result);
             result = CalculateAdditionsAndSubtractionsByOrderOfAppearance(result);
         }
         return result;
@@ -87,10 +86,21 @@ public static class MathCalculator
         return input;
     }
 
+    public static string SimplifyAllBracketedOrphanedNumbers(string input)
+    {
+        while (BasicEquationMatchers.IsMatchOfBracketedOrphanedNumber(input))
+        {
+            input = SimplifyBracketedOrphanedNumber(input);
+        }
+        return input;
+    }
+
     public static string CalculateAdditionsAndSubtractionsByOrderOfAppearance(string input)
     {
         // Additions and subtractions apparently have equal precedence
         //and are resolved by order of appearance
+
+        // TODO: enable negative numbers here, or simply sanitise the ++, --, -+, +-
         var basicAdditionPattern = new Regex(
             $"{numberSubPatternWithOptionalNegative}{escapedPlusSign}{numberSubPattern}"
         );
@@ -340,13 +350,13 @@ public static class MathCalculator
         return input;
     }
 
-    // Find first match of bracketed number (7) but not ABS(7):
     public static string SimplifyBracketedOrphanedNumber(string input)
     {
-        var pattern = BasicEquationMatchers.bracketedOprhanedNumberPattern;
-        if (pattern.IsMatch(input))
+        if (BasicEquationMatchers.IsMatchOfBracketedOrphanedNumber(input))
         {
-            string firstMatch = pattern.Match(input).Value;
+            string firstMatch = BasicEquationMatchers
+                .bracketedOrphanedNumberPattern.Match(input)
+                .Value;
             input = ReplacerUtility.RemoveOutermostBrackets(firstMatch);
         }
         return input;

@@ -15,4 +15,15 @@ public class BasicEquationMatcherTests
 
         Assert.AreEqual(expected, actual);
     }
+
+    [TestMethod]
+    [DataRow("ABS(-80)", "-80")]
+    [DataRow("ROUND(-80)", "-80")]
+    [DataRow("(-80)", "-80")]
+    public void ExtractSingleNumberPositiveOrNegative(string input, string expected)
+    {
+        var actual = BasicEquationMatchers.ExtractSingleNumberPositiveOrNegative(input);
+
+        Assert.AreEqual(expected, actual);
+    }
 }

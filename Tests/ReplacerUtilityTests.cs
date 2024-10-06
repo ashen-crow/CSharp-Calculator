@@ -111,9 +111,11 @@ namespace Tests
 
         [TestMethod]
         [DataRow("(80)", "80")]
+        [DataRow("((80))", "(80)")]
         [DataRow("(80.0)", "80.0")]
         [DataRow("(80.0-20)", "80.0-20")]
         [DataRow("(80.0-20+(2*70))", "80.0-20+(2*70)")]
+        [DataRow("((((80.0-20+(2*70)))))", "(((80.0-20+(2*70))))")]
         public void RemoveOutermostBrackets(string input, string expected)
         {
             var actual = ReplacerUtility.RemoveOutermostBrackets(input);

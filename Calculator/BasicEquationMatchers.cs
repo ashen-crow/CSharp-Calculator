@@ -4,12 +4,10 @@ namespace Calculator;
 
 public static class BasicEquationMatchers
 {
-    public static readonly Regex matchesOfNumberPlusNumber = new Regex(
-        $@"{MathCalculator.numberSubPatternWithOptionalNegative}({MathCalculator.escapedExponentiationSign}{MathCalculator.numberSubPatternWithOptionalNegative})+"
-    );
+    public const string mathsFunctionKeywordsToIgnore = @"(ABS|ROUND|SQRT|CEIL|FLOOR|TRUNC)";
 
-    public static readonly Regex bracketedOprhanedNumberPattern = new Regex(
-        @$"(?<!ABS)\(\{MathCalculator.numberSubPatternWithOptionalNegative}\)"
+    public static readonly Regex bracketedOrphanedNumberPattern = new Regex(
+        @$"(?<!{mathsFunctionKeywordsToIgnore})\(\{MathCalculator.numberSubPatternWithOptionalNegative}\)"
     );
 
     public static readonly Regex firstMatchOfNumberMultipliedByNumber = new Regex(
@@ -45,9 +43,9 @@ public static class BasicEquationMatchers
 
     public static readonly Regex AdvancedAbsPattern = new Regex(
         @"ABS\("
-            + MathCalculator.numberSubPattern
+            + MathCalculator.numberSubPatternWithOptionalNegative
             + MathCalculator.allOperatorsEscaped
-            + MathCalculator.numberSubPattern
+            + MathCalculator.numberSubPatternWithOptionalNegative
             + @"\)",
         RegexOptions.IgnoreCase
     );
@@ -97,16 +95,13 @@ public static class BasicEquationMatchers
 
     public static string ExtractSingleNumberFromAbsolute(string input)
     {
-        // TODO: Unit test this!
         input = singleNumberAbsolutePattern.Match(input).Value.ToUpper();
-        input = ReplacerUtility.RemoveOnlyFirstInstanceOfSubstring(input, "ABS(");
-        input = ReplacerUtility.RemoveOnlyLastInstanceOfSubstring(input, ")");
+        input = ExtractSingleNumberPositiveOrNegative(input);
         return input;
     }
 
     public static string ExtractSingleNumberPositiveOrNegative(string input)
     {
-        // TODO: unit test!
         return new Regex(MathCalculator.numberSubPatternWithOptionalNegative).Match(input).Value;
     }
 
@@ -120,5 +115,10 @@ public static class BasicEquationMatchers
     public static bool IsMatchOfAdvancedAbsolute(string input)
     {
         return AdvancedAbsPattern.IsMatch(input);
+    }
+
+    public static bool IsMatchOfBracketedOrphanedNumber(string input)
+    {
+        return bracketedOrphanedNumberPattern.IsMatch(input);
     }
 }
