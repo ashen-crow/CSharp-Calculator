@@ -90,7 +90,7 @@ public static class MathCalculator
     public static string CalculateAdditionsAndSubtractionsByOrderOfAppearance(string input)
     {
         // Additions and subtractions apparently have equal precedence
-        //and are resoilved by order of appearance
+        //and are resolved by order of appearance
         var basicAdditionPattern = new Regex(
             $"{numberSubPatternWithOptionalNegative}{escapedPlusSign}{numberSubPattern}"
         );
@@ -172,11 +172,6 @@ public static class MathCalculator
 
     public static string CalculateIndices(string input)
     {
-        return CalculateIndicesCorrectly(input);
-    }
-
-    public static string CalculateIndicesCorrectly(string input)
-    {
         while (BasicEquationMatchers.IsMatchOfNumberExponentiatedByNumber(input))
         {
             input = CalculateFirstInstanceOfNumberExponentiatedByNumberCorrectly(input);
@@ -233,37 +228,15 @@ public static class MathCalculator
         throw new NotImplementedException();
     }
 
-    public static string CalculateFirstInstanceOfNumberExponentiatedByNumber(string input)
+    public static string CalculateFirstInstanceOfNumberExponentiatedByNumberCorrectly(string input)
     {
         input = input.ToUpper();
         input = ReplacerUtility.RemoveAllSpaces(input);
         char symbol = '^';
-        var matchesOfNumberPlusNumber = BasicEquationMatchers.matchesOfNumberPlusNumber.Matches(
-            input
-        );
-        var firstMatchOfNumberPlusNumber = matchesOfNumberPlusNumber[^1].Value;
-        Console.WriteLine(
-            $"Found last match of number {symbol} number: " + firstMatchOfNumberPlusNumber
-        );
-        string[] numbers = firstMatchOfNumberPlusNumber.Split(symbol);
-        double result = MathsFuncs.PowOfStringifiedNumbers(numbers[0], numbers[1]);
-        input = ReplacerUtility.ReplaceOnlyLastInstanceOfSubstring(
-            input,
-            firstMatchOfNumberPlusNumber,
-            result.ToString()
-        );
-        return input;
-    }
-
-    private static string CalculateFirstInstanceOfNumberExponentiatedByNumberCorrectly(string input)
-    {
-        input = input.ToUpper();
-        input = ReplacerUtility.RemoveAllSpaces(input);
-        char symbol = '^';
-        var matchesOfNumberPlusNumber = new Regex(
-            $@"{numberSubPattern}({escapedExponentiationSign}{numberSubPattern})+"
+        var matchesOfNumberExponentiatedByNumber = new Regex(
+            $@"{numberSubPatternWithOptionalNegative}({escapedExponentiationSign}{numberSubPatternWithOptionalNegative})+"
         ).Match(input);
-        var firstMatchOfNumberPlusNumber = matchesOfNumberPlusNumber.Value;
+        var firstMatchOfNumberPlusNumber = matchesOfNumberExponentiatedByNumber.Value;
         Console.WriteLine(
             $"Found last match of number {symbol} number: " + firstMatchOfNumberPlusNumber
         );
