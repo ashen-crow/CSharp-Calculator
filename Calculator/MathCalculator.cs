@@ -35,7 +35,6 @@ public static class MathCalculator
             || BasicEquationMatchers.IsMatchOfNumberModuloNumber(input)
             || BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input)
             || BasicEquationMatchers.IsMatchOfAdvancedAbsolute(input)
-            || BasicEquationMatchers.IsMatchOfAdvancedAbsolute(input)
             || BasicEquationMatchers.IsMatchOfBracketedOrphanedNumber(input);
         // TODO: Implement other things such as brackets etc
     }
@@ -47,6 +46,7 @@ public static class MathCalculator
         {
             // B
             result = SimplifyAllBracketedOrphanedNumbers(result);
+            result = CalculateBracketedExpressions(result);
             result = CalculateSingleNumberAbsolutes(result);
             result = CalculateBasicEquationAbsolutes(result);
             // I
@@ -60,6 +60,23 @@ public static class MathCalculator
             result = CalculateAdditionsAndSubtractionsByOrderOfAppearance(result);
         }
         return result;
+    }
+
+    public static string CalculateBracketedExpressions(string input)
+    { // TODO: UNIT TEST
+        while (BasicEquationMatchers.IsMatchOfBracketedExpression(input))
+        {
+            input = CalculateFirstInstanceOfBracketedExpression(input);
+            Console.WriteLine(input);
+        }
+        return input;
+    }
+
+    public static string CalculateFirstInstanceOfBracketedExpression(string input)
+    { // TODO: Unit test
+        string firstMatch = BasicEquationMatchers.bracketedExpressionPattern.Match(input).Value;
+        string result = ResolveBracketedExpression(firstMatch);
+        return ReplacerUtility.ReplaceOnlyFirstInstanceOfSubstring(input, firstMatch, result);
     }
 
     public static string CalculateBasicEquationAbsolutes(string input)
@@ -260,16 +277,6 @@ public static class MathCalculator
             result.ToString()
         );
         return input;
-    }
-
-    public static string CalculateFirstInstanceOfNumberRootedByNumber(string input)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static string CalculateFirstInstanceOfNumberFactorial(string input)
-    {
-        throw new NotImplementedException();
     }
 
     public static string CalculateFirstInstanceOfSingleNumberAbsolute(string input)

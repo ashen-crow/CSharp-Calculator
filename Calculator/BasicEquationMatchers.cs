@@ -54,6 +54,15 @@ public static class BasicEquationMatchers
         RegexOptions.IgnoreCase
     );
 
+    public static readonly Regex bracketedExpressionPattern = new Regex(
+        @"\("
+            + MathCalculator.numberSubPatternWithOptionalNegative
+            + MathCalculator.allOperatorsEscaped
+            + MathCalculator.numberSubPatternWithOptionalNegative
+            + @"\)",
+        RegexOptions.IgnoreCase
+    );
+
     public static bool IsMatchOfNumberPlusNumber(string input)
     {
         return new Regex(
@@ -124,5 +133,10 @@ public static class BasicEquationMatchers
     public static bool IsMatchOfBracketedOrphanedNumber(string input)
     {
         return bracketedOrphanedNumberPattern.IsMatch(input);
+    }
+
+    public static bool IsMatchOfBracketedExpression(string result)
+    {
+        return bracketedExpressionPattern.IsMatch(result);
     }
 }
