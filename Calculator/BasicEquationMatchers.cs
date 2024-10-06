@@ -4,7 +4,26 @@ namespace Calculator;
 
 public static class BasicEquationMatchers
 {
-    static readonly Regex singleNumberAbsolutePattern = new Regex(
+    public static readonly Regex matchesOfNumberPlusNumber = new Regex(
+        $@"{MathCalculator.numberSubPatternWithOptionalNegative}({MathCalculator.escapedExponentiationSign}{MathCalculator.numberSubPatternWithOptionalNegative})+"
+    );
+
+    public static readonly Regex firstMatchOfNumberMultipliedByNumber = new Regex(
+        $@"{MathCalculator.numberSubPatternWithOptionalNegative}{MathCalculator.escapedMultiplySign}{MathCalculator.numberSubPatternWithOptionalNegative}"
+    );
+
+    public static readonly Regex numberPlusNumberWithOptionalFirstNegativeNumberPattern = new Regex(
+        MathCalculator.startOfStringOrLineOrBracketedExpressionPattern
+            + MathCalculator.numberSubPatternWithOptionalNegative
+            + MathCalculator.allOperatorsEscaped
+            + MathCalculator.numberSubPattern
+    );
+
+    public static readonly Regex numberDividedByNumberPattern = new Regex(
+        $@"{MathCalculator.numberSubPatternWithOptionalNegative}{MathCalculator.escapedDivideSign}{MathCalculator.numberSubPatternWithOptionalNegative}"
+    );
+
+    public static readonly Regex singleNumberAbsolutePattern = new Regex(
         @"ABS\(" + MathCalculator.numberSubPatternWithOptionalNegative + @"\)",
         RegexOptions.IgnoreCase
     );
@@ -47,15 +66,13 @@ public static class BasicEquationMatchers
     public static bool IsMatchOfNumberMultipliedByNumber(string input)
     {
         return new Regex(
-            $@"{MathCalculator.numberSubPattern}{MathCalculator.escapedMultiplySign}{MathCalculator.numberSubPattern}"
+            $@"{MathCalculator.numberSubPatternWithOptionalNegative}{MathCalculator.escapedMultiplySign}{MathCalculator.numberSubPatternWithOptionalNegative}"
         ).IsMatch(input);
     }
 
     public static bool IsMatchOfNumberDividedByNumber(string input)
     {
-        return new Regex(
-            $@"{MathCalculator.numberSubPattern}{MathCalculator.escapedDivideSign}{MathCalculator.numberSubPattern}"
-        ).IsMatch(input);
+        return numberDividedByNumberPattern.IsMatch(input);
     }
 
     public static bool IsMatchOfNumberModuloNumber(string input)
@@ -80,6 +97,12 @@ public static class BasicEquationMatchers
         // Remove closing bracket
         input = ReplacerUtility.RemoveOnlyLastInstanceOfSubstring(input, ")");
         return input;
+    }
+
+    public static string ExtractSingleNumberPositiveOrNegative(string input)
+    {
+        // TODO: unit test!
+        return new Regex(MathCalculator.numberSubPatternWithOptionalNegative).Match(input).Value;
     }
 
     public static bool IsMatchOfNumberExponentiatedByNumber(string input)

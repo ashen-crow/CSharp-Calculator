@@ -89,12 +89,37 @@ public class UncategorisedUnitTests
         Assert.AreEqual(expected, actual);
     }
 
+    [TestMethod]
+    [DataRow("-3*2", "-6")]
+    [DataRow("-3*-2", "6")]
+    public void MultiplyManyNumbersHandlesNegatives(string input, string expected)
+    {
+        // Act
+        string actual = MathCalculator.CalculateMultiplications(input);
+
+        // Assert
+        Assert.AreEqual(expected, actual);
+    }
+
     // Divide
 
     [TestMethod]
     [DataRow("3/4", "0.75")]
     [DataRow("20/10", "2")]
     public void DivideTwoNumbers(string input, string expected)
+    {
+        // Act
+        string actual = MathCalculator.CalculateFirstInstanceOfNumberDividedByNumber(input);
+
+        // Assert
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
+    [DataRow("-3/4", "-0.75")]
+    [DataRow("20/-10", "-2")]
+    [DataRow("-20/-10", "2")]
+    public void DivideTwoNumbersHandlesNegatives(string input, string expected)
     {
         // Act
         string actual = MathCalculator.CalculateFirstInstanceOfNumberDividedByNumber(input);
