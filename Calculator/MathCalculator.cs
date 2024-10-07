@@ -36,6 +36,7 @@ public static class MathCalculator
             || BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input)
             || BasicEquationMatchers.IsMatchOfAdvancedAbsolute(input)
             || BasicEquationMatchers.IsMatchOfBracketedOrphanedNumber(input);
+        // TODO: Add more matchers for SQRT, ROUND etc
         // TODO: Implement other things such as brackets etc
     }
 
@@ -49,6 +50,8 @@ public static class MathCalculator
             result = CalculateBracketedExpressions(result);
             result = CalculateSingleNumberAbsolutes(result);
             result = CalculateBasicEquationAbsolutes(result);
+            //////////result = CalculateSingleNumberSquareRoots(result);
+            //////////result = CalculateBasicEquationSquareRoots(result);
             // I
             result = CalculateIndices(result);
             // D
@@ -60,6 +63,16 @@ public static class MathCalculator
             result = CalculateAdditionsAndSubtractionsByOrderOfAppearance(result);
         }
         return result;
+    }
+
+    public static string CalculateSingleNumberSquareRoots(string input)
+    {
+        while (BasicEquationMatchers.IsMatchOfSingleNumberSquareRoot(input))
+        {
+            input = CalculateFirstInstanceOfSingleNumberSquareRoot(input);
+            Console.WriteLine(input);
+        }
+        return input;
     }
 
     public static string CalculateBracketedExpressions(string input)
@@ -259,14 +272,20 @@ public static class MathCalculator
     {
         input = input.ToUpper();
         input = ReplacerUtility.RemoveAllSpaces(input);
-        char symbol = '^';
+        const char symbol = '^';
         var matchesOfNumberExponentiatedByNumber =
             BasicEquationMatchers.numberexponentiatedByNumberPattern.Match(input);
-        var firstMatchOfNumberPlusNumber = matchesOfNumberExponentiatedByNumber.Value;
+        var firstMatchOfNumberExponentiatedByNumber = matchesOfNumberExponentiatedByNumber.Value;
         Console.WriteLine(
-            $"Found last match of number {symbol} number: " + firstMatchOfNumberPlusNumber
+            $"Found last match of number {symbol} number: "
+                + firstMatchOfNumberExponentiatedByNumber
         );
-        string[] numbers = firstMatchOfNumberPlusNumber.Split(symbol);
+        string matchWithFakeNegativesRemoved =
+            FakeNegativesRemover.RemoveFakeNegativesFromFirstInstanceOfSubstring(
+                input,
+                firstMatchOfNumberExponentiatedByNumber!
+            )!;
+        string[] numbers = matchWithFakeNegativesRemoved.Split(symbol);
         string number1 = numbers[numbers.Length - 2];
         string number2 = numbers[numbers.Length - 1];
         double result = MathsUtils.PowOfStringifiedNumbers(number1, number2);
@@ -283,6 +302,23 @@ public static class MathCalculator
     {
         string replacedInput = input;
         if (BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input))
+        {
+            var capturedInput = BasicEquationMatchers.ExtractSingleNumberFromAbsolute(input);
+            var result = MathsUtils.AbsOfStringifiedNumber(capturedInput).ToString();
+            Console.WriteLine($"Calculated ABS string: {input} as {result}");
+            replacedInput = BasicEquationMatchers.singleNumberAbsolutePattern.Replace(
+                input,
+                result
+            ); // TODO: Add regex replacement to ReplacerUtility
+            Console.WriteLine($"Replaced input: {replacedInput}");
+        }
+        return replacedInput;
+    }
+
+    public static string CalculateFirstInstanceOfSingleNumberSquareRoot(string input)
+    {
+        string replacedInput = input;
+        if (BasicEquationMatchers.IsMatchOfSingleNumberSquareRoot(input))
         {
             var capturedInput = BasicEquationMatchers.ExtractSingleNumberFromAbsolute(input);
             var result = MathsUtils.AbsOfStringifiedNumber(capturedInput).ToString();

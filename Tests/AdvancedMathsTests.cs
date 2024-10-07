@@ -24,7 +24,7 @@ public class AdvancedMathsTests
     [DataRow("3*2+4-10^5", "-99990")]
     [DataRow("10/2+3*4", "17")]
     [DataRow("5*10-3^2", "41")]
-    [DataRow("ABS(-2+3*2)-4", "2")]
+    [DataRow("ABS(-2+3*2)-4", "0")]
     [DataRow("10/2^2+5", "7.5")]
     [DataRow("SQRT(16)+2^3", "12")]
     [DataRow("5*(3+2)-10", "15")]

@@ -111,4 +111,13 @@ public static class ReplacerUtility
     { // TODO: UNIT TEST
         return ReplaceAllInstancesOfPattern(input, BasicEquationMatchers.repeatedPlusSignPattern, "+");
     }
+
+    public static string RemoveLeadingMinusSign(string input)
+    { // TODO: UNIT TEST
+        if (input[0] == '-')
+        {
+            input = RemoveOnlyFirstInstanceOfSubstring(input, "-");
+        }
+        return input;
+    }
 }
