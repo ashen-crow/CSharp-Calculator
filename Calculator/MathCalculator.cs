@@ -48,9 +48,13 @@ public static class MathCalculator
             // B
             result = SimplifyAllBracketedOrphanedNumbers(result);
             result = CalculateBracketedExpressions(result);
-            result = CalculateSingleNumberAbsolutes(result);
+            result = CalculateSingleNumberUnaryMathsFunctions.CalculateSingleNumberAbsolutes(
+                result
+            );
             result = CalculateBasicEquationAbsolutes(result);
-            result = CalculateSingleNumberSquareRoots(result);
+            result = CalculateSingleNumberUnaryMathsFunctions.CalculateSingleNumberSquareRoots(
+                result
+            );
             //////////result = CalculateBasicEquationSquareRoots(result);
             // I
             result = CalculateIndices(result);
@@ -63,16 +67,6 @@ public static class MathCalculator
             result = CalculateAdditionsAndSubtractionsByOrderOfAppearance(result);
         }
         return result;
-    }
-
-    public static string CalculateSingleNumberSquareRoots(string input)
-    { // TODO: UNIT TEST
-        while (BasicEquationMatchers.IsMatchOfSingleNumberSquareRoot(input))
-        {
-            input = CalculateFirstInstanceOfSingleNumberSquareRoot(input);
-            Console.WriteLine(input);
-        }
-        return input;
     }
 
     public static string CalculateBracketedExpressions(string input)
@@ -220,17 +214,6 @@ public static class MathCalculator
         return input;
     }
 
-    public static string CalculateSingleNumberAbsolutes(string input)
-    {
-        while (BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input))
-        {
-            input = CalculateFirstInstanceOfSingleNumberAbsolute(input);
-            Console.WriteLine(input);
-        }
-
-        return input;
-    }
-
     public static string CalculateFirstInstanceOfNumberMultipliedByNumber(string input)
     {
         input = input.ToUpper();
@@ -375,7 +358,7 @@ public static class MathCalculator
         input = input.Replace("+-", "-");
         input = input.Replace("+-", "-");
         var firstMatchOfNumberMinusNumber = BasicEquationMatchers
-            .numberMinusNumberAllowsNegativesPattern.Match(input)
+            .numberMinusNumberPattern.Match(input)
             .Value;
         firstMatchOfNumberMinusNumber = ReplacerUtility.RemoveOutermostBrackets(
             firstMatchOfNumberMinusNumber

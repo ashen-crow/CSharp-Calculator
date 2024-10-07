@@ -19,12 +19,8 @@ public static class BasicEquationMatchers
         MathCalculator.escapedMultiplySign
     );
 
-    public static readonly Regex numberPlusNumberWithOptionalFirstNegativeNumberPattern = new Regex(
-        MathCalculator.startOfStringOrLineOrBracketedExpressionPattern
-            + MathCalculator.numberSubPatternWithOptionalNegative
-            + MathCalculator.allOperatorsEscaped
-            + MathCalculator.numberSubPattern
-    );
+    public static readonly Regex numberPlusNumberWithOptionalFirstNegativeNumberPattern =
+        CreateBasicEquationPattern(MathCalculator.escapedPlusSign);
 
     public static readonly Regex numberexponentiatedByNumberPattern = new Regex(
         $@"{MathCalculator.numberSubPatternWithOptionalNegative}({MathCalculator.escapedExponentiationSign}{MathCalculator.numberSubPatternWithOptionalNegative})+"
@@ -51,23 +47,27 @@ public static class BasicEquationMatchers
         );
     }
 
-    public static readonly Regex numberMinusNumberAllowsNegativesPattern = new Regex(
-        MathCalculator.startOfStringOrLineOrBracketedExpressionPattern
-            + MathCalculator.numberSubPatternWithOptionalNegative
-            + MathCalculator.escapedMinusSign
-            + MathCalculator.numberSubPattern
+    public static readonly Regex numberMinusNumberPattern = CreateBasicEquationPattern(
+        MathCalculator.escapedMinusSign
     );
 
-    public static readonly Regex AdvancedAbsPattern
-    // TODO: Create a function to create this pattern for other unary Maths functions such as SQRT, ROUND etc
-    = new Regex(
-        @"ABS\("
-            + MathCalculator.numberSubPatternWithOptionalNegative
-            + MathCalculator.allOperatorsEscaped
-            + MathCalculator.numberSubPatternWithOptionalNegative
-            + @"\)",
-        RegexOptions.IgnoreCase
-    );
+    public static readonly Regex BasicEquationWithinAbsPattern =
+        CreateBasicEquationWithinUnaryMathsFunctionByNameCaseInsensitive("ABS");
+
+    public static Regex CreateBasicEquationWithinUnaryMathsFunctionByNameCaseInsensitive(
+        string functionNameShortName
+    )
+    {
+        // TODO: UNIT TEST
+        return new Regex(
+            $@"{functionNameShortName}\("
+                + MathCalculator.numberSubPatternWithOptionalNegative
+                + MathCalculator.allOperatorsEscaped
+                + MathCalculator.numberSubPatternWithOptionalNegative
+                + @"\)",
+            RegexOptions.IgnoreCase
+        );
+    }
 
     public static readonly Regex bracketedExpressionPattern = new Regex(
         @"\("
@@ -97,13 +97,12 @@ public static class BasicEquationMatchers
 
     public static bool IsMatchOfNumberMinusNumber(string input)
     {
-        var pattern = CreateBasicEquationPattern(MathCalculator.escapedMinusSign);
-        return pattern.IsMatch(input);
+        return numberMinusNumberPattern.IsMatch(input);
     }
 
     public static bool IsMatchOfNumberMinusNumberAllowsNegatives(string input)
     {
-        return numberMinusNumberAllowsNegativesPattern.IsMatch(input);
+        return numberMinusNumberPattern.IsMatch(input);
     }
 
     public static bool IsMatchOfNumberMultipliedByNumber(string input)
@@ -162,7 +161,7 @@ public static class BasicEquationMatchers
 
     public static bool IsMatchOfAdvancedAbsolute(string input)
     {
-        return AdvancedAbsPattern.IsMatch(input);
+        return BasicEquationWithinAbsPattern.IsMatch(input);
     }
 
     public static bool IsMatchOfBracketedOrphanedNumber(string input)
