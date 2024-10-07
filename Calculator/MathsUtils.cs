@@ -123,4 +123,14 @@ public static class MathsUtils
     {
         return Modulo(double.Parse(a), double.Parse(b));
     }
+
+    public static double SquareRoot(double a)
+    {
+        return Math.Sqrt(a);
+    }
+
+    public static double SquareRootOfStringifiedNumber(string a)
+    {
+        return SquareRoot(double.Parse(a));
+    }
 }

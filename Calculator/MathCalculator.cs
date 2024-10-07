@@ -50,7 +50,7 @@ public static class MathCalculator
             result = CalculateBracketedExpressions(result);
             result = CalculateSingleNumberAbsolutes(result);
             result = CalculateBasicEquationAbsolutes(result);
-            //////////result = CalculateSingleNumberSquareRoots(result);
+            result = CalculateSingleNumberSquareRoots(result);
             //////////result = CalculateBasicEquationSquareRoots(result);
             // I
             result = CalculateIndices(result);
@@ -66,7 +66,7 @@ public static class MathCalculator
     }
 
     public static string CalculateSingleNumberSquareRoots(string input)
-    {
+    { // TODO: UNIT TEST
         while (BasicEquationMatchers.IsMatchOfSingleNumberSquareRoot(input))
         {
             input = CalculateFirstInstanceOfSingleNumberSquareRoot(input);
@@ -303,13 +303,12 @@ public static class MathCalculator
         string replacedInput = input;
         if (BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input))
         {
+            const string fnName = "ABS";
+            Regex pattern = BasicEquationMatchers.singleNumberAbsolutePattern;
             var capturedInput = BasicEquationMatchers.ExtractSingleNumberFromAbsolute(input);
             var result = MathsUtils.AbsOfStringifiedNumber(capturedInput).ToString();
-            Console.WriteLine($"Calculated ABS string: {input} as {result}");
-            replacedInput = BasicEquationMatchers.singleNumberAbsolutePattern.Replace(
-                input,
-                result
-            ); // TODO: Add regex replacement to ReplacerUtility
+            Console.WriteLine($"Calculated {fnName} string: {input} as {result}");
+            replacedInput = pattern.Replace(input, result); // TODO: Add regex replacement to ReplacerUtility
             Console.WriteLine($"Replaced input: {replacedInput}");
         }
         return replacedInput;
@@ -320,13 +319,12 @@ public static class MathCalculator
         string replacedInput = input;
         if (BasicEquationMatchers.IsMatchOfSingleNumberSquareRoot(input))
         {
-            var capturedInput = BasicEquationMatchers.ExtractSingleNumberFromAbsolute(input);
-            var result = MathsUtils.AbsOfStringifiedNumber(capturedInput).ToString();
-            Console.WriteLine($"Calculated ABS string: {input} as {result}");
-            replacedInput = BasicEquationMatchers.singleNumberAbsolutePattern.Replace(
-                input,
-                result
-            ); // TODO: Add regex replacement to ReplacerUtility
+            const string fnName = "SQRT";
+            var pattern = BasicEquationMatchers.singleNumberSquareRootPattern;
+            var capturedInput = BasicEquationMatchers.ExtractSingleNumberFromSquareRoot(input);
+            var result = MathsUtils.SquareRootOfStringifiedNumber(capturedInput).ToString();
+            Console.WriteLine($"Calculated {fnName} string: {input} as {result}");
+            replacedInput = pattern.Replace(input, result); // TODO: Add regex replacement to ReplacerUtility
             Console.WriteLine($"Replaced input: {replacedInput}");
         }
         return replacedInput;
