@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Calculator;
 
 namespace Tests
@@ -127,6 +128,48 @@ namespace Tests
         public void RemoveAllSpaces(string input, string expected)
         {
             var actual = ReplacerUtility.RemoveAllSpaces(input);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [DataRow(null, null, null, null)]
+        public void ReplaceAllInstancesOfPattern(
+            string input,
+            Regex pattern,
+            string replacement,
+            string expected
+        )
+        {
+            Assert.Fail();
+            var actual = ReplacerUtility.ReplaceAllInstancesOfPattern(input, pattern, replacement);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [DataRow(null, null, null)]
+        public void RemoveAllInstancesOfPattern(string input, Regex pattern, string expected)
+        {
+            Assert.Fail();
+            var actual = ReplacerUtility.RemoveAllInstancesOfPattern(input, pattern);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [DataRow(null, null)]
+        public void FlattenRepeatedPlusSigns(string input, string expected)
+        {
+            Assert.Fail();
+            var actual = ReplacerUtility.FlattenRepeatedPlusSigns(input);
+            Assert.AreEqual(expected, actual);
+        }
+
+        //
+        [TestMethod]
+        [DataRow(null, null)]
+        public void RemoveLeadingMinusSign(string input, string expected)
+        {
+            Assert.Fail();
+            var actual = ReplacerUtility.RemoveLeadingMinusSign(input);
             Assert.AreEqual(expected, actual);
         }
     }

@@ -40,9 +40,27 @@ public class AbsolutesTests
     }
 
     [TestMethod]
+    [DataRow("ABS(0+100)/(ABS(20/4))", "20")]
+    public void CalculateMultiEquationAbsolutes(string input, string expected)
+    {
+        var actual = MathCalculator.CalculateBasicEquationAbsolutes(input);
+
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
     [DataRow("ABS(70+40)", true)]
     [DataRow("ABS(70-100)", true)]
     public void IsMatchOfAdvancedAbsolute(string input, bool expected)
+    {
+        bool actual = BasicEquationMatchers.IsMatchOfAdvancedAbsolute(input);
+
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
+    [DataRow("ABS(0+100)/(ABS(20/4))", true)]
+    public void IsMatchOfMultiEquationAbsolute(string input, bool expected)
     {
         bool actual = BasicEquationMatchers.IsMatchOfAdvancedAbsolute(input);
 

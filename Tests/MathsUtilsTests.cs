@@ -67,6 +67,15 @@ public class MathsUtilsTests
     }
 
     [TestMethod]
+    [DataRow("10.002", 10.002)]
+    [DataRow("-10.002", 10.002)]
+    public void AbsOfStringifiedNumber(string a, double expected)
+    {
+        var actual = Calculator.MathsUtils.AbsOfStringifiedNumber(a);
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
     [DataRow("10", "2", 12)]
     [DataRow("120000", "30.0", 120_030)]
     [DataRow("120000", "-30.0", 119_970)]
@@ -98,11 +107,101 @@ public class MathsUtilsTests
     }
 
     [TestMethod]
-    [DataRow("10.002", 10.002)]
-    [DataRow("-10.002", 10.002)]
-    public void AbsOfStringifiedNumber(string a, double expected)
+    [DataRow(10.5, 11)]
+    [DataRow(10.4, 10)]
+    [DataRow(10.55, 11)]
+    [DataRow(10.54, 11)]
+    [DataRow(123.456, 123)]
+    [DataRow(123.454, 123)]
+    public void Round(double value, double expected)
     {
-        var actual = Calculator.MathsUtils.AbsOfStringifiedNumber(a);
+        //Assert.Fail();
+        var actual = Calculator.MathsUtils.RoundToNearestInteger(value);
         Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
+    [DataRow("10.5", 11)]
+    [DataRow("10.4", 10)]
+    [DataRow("10.55", 10.6)]
+    [DataRow("10.54", 10.5)]
+    [DataRow("123.456", 123.46)]
+    [DataRow("123.454", 123.45)]
+    public void RoundStringifiedNumber(string value, double expected)
+    {
+        //Assert.Fail();
+        var actual = Calculator.MathsUtils.RoundToNearestIntegerStringifiedNumber(value);
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
+    public void Sqrt(double a, double expected)
+    {
+        Assert.Fail();
+    }
+
+    [TestMethod]
+    public void SqrtOfStringifiedNumber(string a, double expected)
+    {
+        Assert.Fail();
+    }
+
+    [TestMethod]
+    public void Ceil(double a, double expected)
+    {
+        Assert.Fail();
+    }
+
+    [TestMethod]
+    public void CeilOfStringifiedNumber(string a, double expected)
+    {
+        Assert.Fail();
+    }
+
+    [TestMethod]
+    public void Floor(double a, double expected)
+    {
+        Assert.Fail();
+    }
+
+    public void FloorOfStringifiedNumber(string a, double expected)
+    {
+        Assert.Fail();
+    }
+
+    [TestMethod]
+    public void Truncate(double a, double expected)
+    {
+        Assert.Fail();
+    }
+
+    [TestMethod]
+    public void TruncateOfStringifiedNumber(string a, double expected)
+    {
+        Assert.Fail();
+    }
+
+    [TestMethod]
+    public void Modulo(double a, double expected)
+    {
+        Assert.Fail();
+    }
+
+    [TestMethod]
+    public void ModuloOfStringifiedNumber(string a, double expected)
+    {
+        Assert.Fail();
+    }
+
+    [TestMethod]
+    public void SquareRoot(double a, double expected)
+    {
+        Assert.Fail();
+    }
+
+    [TestMethod]
+    public void SquareRootOfStringifiedNumber(string a, double expected)
+    {
+        Assert.Fail();
     }
 }

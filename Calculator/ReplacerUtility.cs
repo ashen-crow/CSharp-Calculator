@@ -98,22 +98,26 @@ public static class ReplacerUtility
         Regex pattern,
         string replacement
     )
-    { // TODO: UNIT TEST
+    {
         return pattern.Replace(input, replacement);
     }
 
     public static string RemoveAllInstancesOfPattern(string input, Regex pattern)
-    { // TODO: UNIT TEST
+    {
         return ReplaceAllInstancesOfPattern(input, pattern, string.Empty);
     }
 
     public static string FlattenRepeatedPlusSigns(string input)
-    { // TODO: UNIT TEST
-        return ReplaceAllInstancesOfPattern(input, BasicEquationMatchers.repeatedPlusSignPattern, "+");
+    {
+        return ReplaceAllInstancesOfPattern(
+            input,
+            BasicEquationMatchers.repeatedPlusSignPattern,
+            "+"
+        );
     }
 
     public static string RemoveLeadingMinusSign(string input)
-    { // TODO: UNIT TEST
+    {
         if (input[0] == '-')
         {
             input = RemoveOnlyFirstInstanceOfSubstring(input, "-");

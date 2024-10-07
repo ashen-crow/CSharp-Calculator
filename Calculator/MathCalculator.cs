@@ -34,6 +34,7 @@ public static class MathCalculator
             || BasicEquationMatchers.IsMatchOfNumberMultipliedByNumber(input)
             || BasicEquationMatchers.IsMatchOfNumberModuloNumber(input)
             || BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input)
+            || BasicEquationMatchers.IsMatchOfSingleNumberSquareRoot(input)
             || BasicEquationMatchers.IsMatchOfAdvancedAbsolute(input)
             || BasicEquationMatchers.IsMatchOfBracketedOrphanedNumber(input);
         // TODO: Add more matchers for SQRT, ROUND etc

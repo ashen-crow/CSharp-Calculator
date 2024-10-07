@@ -69,14 +69,8 @@ public static class BasicEquationMatchers
         );
     }
 
-    public static readonly Regex bracketedExpressionPattern = new Regex(
-        @"\("
-            + MathCalculator.numberSubPatternWithOptionalNegative
-            + MathCalculator.allOperatorsEscaped
-            + MathCalculator.numberSubPatternWithOptionalNegative
-            + @"\)",
-        RegexOptions.IgnoreCase
-    );
+    public static readonly Regex bracketedExpressionPattern =
+        CreateBasicEquationWithinUnaryMathsFunctionByNameCaseInsensitive(string.Empty);
 
     public static Regex CreateBasicEquationPattern(string escapedOperator)
     { // TODO: UNIT TEST
