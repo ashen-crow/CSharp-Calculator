@@ -1,3 +1,5 @@
+using Calculator;
+
 namespace Tests;
 
 [TestClass]
@@ -135,38 +137,47 @@ public class MathsUtilsTests
     }
 
     [TestMethod]
+    [DataRow(100, 10)]
     public void Sqrt(double a, double expected)
     {
-        Assert.Fail();
+        Assert.AreEqual(expected, MathsUtils.SquareRoot(a));
     }
 
     [TestMethod]
+    [DataRow("9", 3)]
     public void SqrtOfStringifiedNumber(string a, double expected)
     {
-        Assert.Fail();
+        Assert.AreEqual(expected, MathsUtils.SquareRootOfStringifiedNumber(a));
     }
 
     [TestMethod]
+    [DataRow(4.99999, 5)]
+    [DataRow(9999.01, 5)]
     public void Ceil(double a, double expected)
     {
-        Assert.Fail();
+        Assert.AreEqual(expected, MathsUtils.Ceil(a));
     }
 
     [TestMethod]
+    [DataRow("5.04", 6)]
     public void CeilOfStringifiedNumber(string a, double expected)
     {
-        Assert.Fail();
+        Assert.AreEqual(expected, MathsUtils.CeilOfStringifiedNumber(a));
     }
 
     [TestMethod]
+    [DataRow(2.9999999, 3)]
+    [DataRow(74746557.02, 74746558)]
     public void Floor(double a, double expected)
     {
-        Assert.Fail();
+        Assert.AreEqual(expected, MathsUtils.Floor(a));
     }
 
+    [TestMethod]
+    [DataRow("200.0000001", 201)]
     public void FloorOfStringifiedNumber(string a, double expected)
     {
-        Assert.Fail();
+        Assert.AreEqual(expected, MathsUtils.FloorOfStringifiedNumber(a));
     }
 
     [TestMethod]
@@ -189,18 +200,6 @@ public class MathsUtilsTests
 
     [TestMethod]
     public void ModuloOfStringifiedNumber(string a, double expected)
-    {
-        Assert.Fail();
-    }
-
-    [TestMethod]
-    public void SquareRoot(double a, double expected)
-    {
-        Assert.Fail();
-    }
-
-    [TestMethod]
-    public void SquareRootOfStringifiedNumber(string a, double expected)
     {
         Assert.Fail();
     }
