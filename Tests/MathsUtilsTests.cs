@@ -109,34 +109,6 @@ public class MathsUtilsTests
     }
 
     [TestMethod]
-    [DataRow(10.5, 11)]
-    [DataRow(10.4, 10)]
-    [DataRow(10.55, 11)]
-    [DataRow(10.54, 11)]
-    [DataRow(123.456, 123)]
-    [DataRow(123.454, 123)]
-    public void Round(double value, double expected)
-    {
-        //Assert.Fail();
-        var actual = Calculator.MathsUtils.RoundToNearestInteger(value);
-        Assert.AreEqual(expected, actual);
-    }
-
-    [TestMethod]
-    [DataRow("10.5", 11)]
-    [DataRow("10.4", 10)]
-    [DataRow("10.55", 10.6)]
-    [DataRow("10.54", 10.5)]
-    [DataRow("123.456", 123.46)]
-    [DataRow("123.454", 123.45)]
-    public void RoundStringifiedNumber(string value, double expected)
-    {
-        //Assert.Fail();
-        var actual = Calculator.MathsUtils.RoundToNearestIntegerStringifiedNumber(value);
-        Assert.AreEqual(expected, actual);
-    }
-
-    [TestMethod]
     [DataRow(100, 10)]
     public void Sqrt(double a, double expected)
     {
@@ -205,12 +177,14 @@ public class MathsUtilsTests
     public void Modulo(double a, double b, double expected)
     {
         var actual = MathsUtils.Modulo(a, b);
+        Assert.AreEqual(expected, actual);
     }
 
     [TestMethod]
     [DataRow("25", "4", 1)]
     public void ModuloOfStringifiedNumber(string a, string b, double expected)
     {
-        Assert.Fail();
+        var actual = MathsUtils.ModuloOfStringifiedNumber(a, b);
+        Assert.AreEqual(expected, actual);
     }
 }

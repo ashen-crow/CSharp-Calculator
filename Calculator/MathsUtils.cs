@@ -62,16 +62,6 @@ public static class MathsUtils
         return Pow(double.Parse(a), double.Parse(b));
     }
 
-    public static double RoundToNearestInteger(double a)
-    {
-        return Math.Round(a);
-    }
-
-    public static double RoundToNearestIntegerStringifiedNumber(string a)
-    {
-        return RoundToNearestInteger(double.Parse(a));
-    }
-
     public static double SquareRoot(double a)
     {
         return Math.Sqrt(a);
