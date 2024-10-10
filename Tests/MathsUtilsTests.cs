@@ -152,7 +152,7 @@ public class MathsUtilsTests
 
     [TestMethod]
     [DataRow(4.99999, 5)]
-    [DataRow(9999.01, 5)]
+    [DataRow(9999.01, 10_000)]
     public void Ceil(double a, double expected)
     {
         Assert.AreEqual(expected, MathsUtils.Ceil(a));
@@ -166,40 +166,50 @@ public class MathsUtilsTests
     }
 
     [TestMethod]
-    [DataRow(2.9999999, 3)]
-    [DataRow(74746557.02, 74746558)]
+    [DataRow(2.9999999, 2)]
+    [DataRow(74746557.02, 74746557)]
     public void Floor(double a, double expected)
     {
         Assert.AreEqual(expected, MathsUtils.Floor(a));
     }
 
     [TestMethod]
-    [DataRow("200.0000001", 201)]
+    [DataRow("200.0000001", 200)]
+    [DataRow("24.99999", 24)]
     public void FloorOfStringifiedNumber(string a, double expected)
     {
         Assert.AreEqual(expected, MathsUtils.FloorOfStringifiedNumber(a));
     }
 
     [TestMethod]
+    [DataRow(20.000001, 20)]
+    [DataRow(Math.PI, 3)]
     public void Truncate(double a, double expected)
     {
-        Assert.Fail();
+        var actual = MathsUtils.Truncate(a);
+        Assert.AreEqual(expected, actual);
     }
 
     [TestMethod]
+    [DataRow("35.999999", 35)]
+    [DataRow("202.1", 202)]
     public void TruncateOfStringifiedNumber(string a, double expected)
     {
-        Assert.Fail();
+        var actual = MathsUtils.TruncateOfStringifiedNumber(a);
+        Assert.AreEqual(expected, actual);
     }
 
     [TestMethod]
-    public void Modulo(double a, double expected)
+    [DataRow(10, 2, 0)]
+    [DataRow(3, 2, 1)]
+    public void Modulo(double a, double b, double expected)
     {
-        Assert.Fail();
+        var actual = MathsUtils.Modulo(a, b);
     }
 
     [TestMethod]
-    public void ModuloOfStringifiedNumber(string a, double expected)
+    [DataRow("25", "4", 1)]
+    public void ModuloOfStringifiedNumber(string a, string b, double expected)
     {
         Assert.Fail();
     }

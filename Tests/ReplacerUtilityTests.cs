@@ -132,44 +132,50 @@ namespace Tests
         }
 
         [TestMethod]
-        [DataRow(null, null, null, null)]
+        [DataRow("Hello world", @"\w|\s", "", "")]
+        [DataRow("Hello world", @"[a-z]", "a", "Haaaa aaaaa")]
+        [DataRow("7+8/2", @"\d\+\d", "15", "15/2")]
+        [DataRow("7+8/2+2", @"\d\+\d", "sum", "sum/sum")]
         public void ReplaceAllInstancesOfPattern(
             string input,
-            Regex pattern,
+            string patternString,
             string replacement,
             string expected
         )
         {
-            Assert.Fail();
-            var actual = ReplacerUtility.ReplaceAllInstancesOfPattern(input, pattern, replacement);
+            var actual = ReplacerUtility.ReplaceAllInstancesOfPattern(
+                input,
+                new Regex(patternString),
+                replacement
+            );
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        [DataRow(null, null, null)]
-        public void RemoveAllInstancesOfPattern(string input, Regex pattern, string expected)
+        public void RemoveAllInstancesOfPattern()
         {
-            Assert.Fail();
-            var actual = ReplacerUtility.RemoveAllInstancesOfPattern(input, pattern);
+            string input = "Hello world";
+            string expected = "Heo world";
+            Regex pattern = new Regex(@"l[e-zE-Z]");
+            string actual = ReplacerUtility.RemoveAllInstancesOfPattern(input, pattern);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        [DataRow(null, null)]
+        [DataRow("3++++++7", "3+7")]
         public void FlattenRepeatedPlusSigns(string input, string expected)
         {
-            Assert.Fail();
             var actual = ReplacerUtility.FlattenRepeatedPlusSigns(input);
             Assert.AreEqual(expected, actual);
         }
 
-        //
         [TestMethod]
-        [DataRow(null, null)]
-        public void RemoveLeadingMinusSign(string input, string expected)
+        [DataRow("20", "20")]
+        [DataRow("-20", "20")]
+        [DataRow("-5.0+72", "5.0+72")]
+        public void RemoveLeadingMinusSignNoChecks(string input, string expected)
         {
-            Assert.Fail();
-            var actual = ReplacerUtility.RemoveLeadingMinusSign(input);
+            var actual = ReplacerUtility.RemoveLeadingMinusSignNoChecks(input);
             Assert.AreEqual(expected, actual);
         }
     }

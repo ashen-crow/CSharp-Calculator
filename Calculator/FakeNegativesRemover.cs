@@ -19,7 +19,7 @@ namespace Calculator
             }
             if (char.IsDigit(input[input.IndexOf(substring) - 1]))
             {
-                result = ReplacerUtility.RemoveLeadingMinusSign(substring);
+                result = ReplacerUtility.RemoveLeadingMinusSignNoChecks(substring);
             }
             return result;
         }

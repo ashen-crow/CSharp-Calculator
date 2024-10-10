@@ -116,7 +116,7 @@ public static class ReplacerUtility
         );
     }
 
-    public static string RemoveLeadingMinusSign(string input)
+    public static string RemoveLeadingMinusSignNoChecks(string input)
     {
         if (input[0] == '-')
         {

@@ -3,7 +3,7 @@ namespace Calculator
     public static class CalculateSingleNumberUnaryMathsFunctions
     {
         public static string CalculateSingleNumberAbsolutes(string input)
-        { // TODO: UNIT TEST
+        {
             while (BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input))
             {
                 input = MathCalculator.CalculateFirstInstanceOfSingleNumberAbsolute(input);
@@ -14,7 +14,7 @@ namespace Calculator
         }
 
         public static string CalculateSingleNumberSquareRoots(string input)
-        { // TODO: UNIT TEST
+        {
             while (BasicEquationMatchers.IsMatchOfSingleNumberSquareRoot(input))
             {
                 input = MathCalculator.CalculateFirstInstanceOfSingleNumberSquareRoot(input);

@@ -7,7 +7,7 @@ public class CalculateSingleNumberUnaryMathsFunctionsTest
     public void CalculateSingleNumberAbsolutes_PositiveNumber_ReturnsSameNumber()
     {
         // Arrange
-        string input = "5";
+        string input = "ABS(5)";
         string expected = "5";
 
         // Act
@@ -23,7 +23,7 @@ public class CalculateSingleNumberUnaryMathsFunctionsTest
     public void CalculateSingleNumberAbsolutes_NegativeNumber_ReturnsAbsoluteValue()
     {
         // Arrange
-        string input = "-5";
+        string input = "ABS(-5)";
         string expected = "5";
 
         // Act
@@ -39,7 +39,7 @@ public class CalculateSingleNumberUnaryMathsFunctionsTest
     public void CalculateSingleNumberAbsolutes_Zero_ReturnsZero()
     {
         // Arrange
-        string input = "0";
+        string input = "ABS(0)";
         string expected = "0";
 
         // Act
@@ -55,7 +55,7 @@ public class CalculateSingleNumberUnaryMathsFunctionsTest
     public void CalculateSingleNumberSquareRoots_PerfectSquare_ReturnsSquareRoot()
     {
         // Arrange
-        string input = "4";
+        string input = "SQRT(4)";
         string expected = "2";
 
         // Act
@@ -71,7 +71,7 @@ public class CalculateSingleNumberUnaryMathsFunctionsTest
     public void CalculateSingleNumberSquareRoots_NonPerfectSquare_ReturnsApproximateSquareRoot()
     {
         // Arrange
-        string input = "2";
+        string input = "SQRT(2)";
         string expected = "1.41421356237"; // Approximate value
 
         // Act
@@ -80,14 +80,14 @@ public class CalculateSingleNumberUnaryMathsFunctionsTest
         );
 
         // Assert
-        Assert.AreEqual(expected, result.Substring(0, 12)); // Compare up to 11 decimal places
+        Assert.AreEqual(expected, result.Substring(0, 13)); // Compare up to x decimal places
     }
 
     [TestMethod]
     public void CalculateSingleNumberSquareRoots_Zero_ReturnsZero()
     {
         // Arrange
-        string input = "0";
+        string input = "SQRT(0)";
         string expected = "0";
 
         // Act
