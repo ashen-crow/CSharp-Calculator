@@ -5,6 +5,10 @@ namespace Calculator;
 
 public static class BasicEquationMatchers
 {
+    public static readonly Regex numberExponentiatedByNumberPattern = new Regex( // TODO: DISDUPLICATE!
+        $@"{MathCalculator.numberSubPattern}({MathCalculator.escapedExponentiationSign}{MathCalculator.numberSubPattern})+"
+    );
+
     public const string mathsFunctionKeywordsToIgnore = @"(ABS|ROUND|SQRT|CEIL|FLOOR|TRUNC)";
 
     public static readonly Regex bracketedOrphanedNumberPattern = new Regex(
@@ -15,14 +19,14 @@ public static class BasicEquationMatchers
         $@"{MathCalculator.escapedPlusSign}+"
     );
 
-    public static readonly Regex firstMatchOfNumberMultipliedByNumber = CreateBasicEquationPattern(
+    public static readonly Regex numberMultipliedByNumberPattern = CreateBasicEquationPattern(
         MathCalculator.escapedMultiplySign
     );
 
     public static readonly Regex numberPlusNumberWithOptionalFirstNegativeNumberPattern =
         CreateBasicEquationPattern(MathCalculator.escapedPlusSign);
 
-    public static readonly Regex numberexponentiatedByNumberPattern = new Regex(
+    public static readonly Regex numberexponentiatedByNumberPattern = new Regex( // TODO: DISDUPLICATE!
         $@"{MathCalculator.numberSubPatternWithOptionalNegative}({MathCalculator.escapedExponentiationSign}{MathCalculator.numberSubPatternWithOptionalNegative})+"
     );
 
@@ -85,8 +89,7 @@ public static class BasicEquationMatchers
 
     public static bool IsMatchOfNumberPlusNumber(string input)
     {
-        var pattern = CreateBasicEquationPattern(MathCalculator.escapedPlusSign);
-        return pattern.IsMatch(input);
+        return numberPlusNumberWithOptionalFirstNegativeNumberPattern.IsMatch(input);
     }
 
     public static bool IsMatchOfNumberMinusNumber(string input)
@@ -101,7 +104,7 @@ public static class BasicEquationMatchers
 
     public static bool IsMatchOfNumberMultipliedByNumber(string input)
     {
-        return firstMatchOfNumberMultipliedByNumber.IsMatch(input);
+        return numberMultipliedByNumberPattern.IsMatch(input);
     }
 
     public static bool IsMatchOfNumberDividedByNumber(string input)
@@ -148,9 +151,7 @@ public static class BasicEquationMatchers
 
     public static bool IsMatchOfNumberExponentiatedByNumber(string input)
     {
-        return new Regex(
-            $@"{MathCalculator.numberSubPattern}({MathCalculator.escapedExponentiationSign}{MathCalculator.numberSubPattern})+"
-        ).IsMatch(input);
+        return numberExponentiatedByNumberPattern.IsMatch(input);
     }
 
     public static bool IsMatchOfAdvancedAbsolute(string input)

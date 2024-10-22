@@ -49,6 +49,17 @@ public class AbsolutesTests
     }
 
     [TestMethod]
+    [DataRow("ABS(ABS(-20))", "20")]
+    [DataRow("ABS(ABS(20))", "20")]
+    [DataRow("ABS(ABS(ABS(20)))", "20")]
+    [DataRow("ABS(ABS(ABS(-20)))", "20")]
+    public void ConcentricAbsStillCalculatesAbs(string input, string expected)
+    {
+        var actual = MathCalculator.CalculateBasicEquationAbsolutes(input);
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
     [DataRow("ABS(70+40)", true)]
     [DataRow("ABS(70-100)", true)]
     public void IsMatchOfAdvancedAbsolute(string input, bool expected)

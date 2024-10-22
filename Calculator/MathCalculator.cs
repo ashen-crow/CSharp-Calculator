@@ -220,7 +220,7 @@ public static class MathCalculator
         input = input.ToUpper();
         input = ReplacerUtility.RemoveAllSpaces(input);
         var firstMatchOfNumberMultipliedByNumber = BasicEquationMatchers
-            .firstMatchOfNumberMultipliedByNumber.Match(input)
+            .numberMultipliedByNumberPattern.Match(input)
             .Value;
         Console.WriteLine(
             "Found first match of number * number: " + firstMatchOfNumberMultipliedByNumber
@@ -398,4 +398,17 @@ public static class MathCalculator
         input = ProcessBidmasExceptBracketsIteratively(input);
         return input;
     }
+
+    ///public static string CalculateBracketedExpressions_V2(string input) {
+    ///    // If is match of bracketed indices:
+    ///    while(new Regex($@"\({numberSubPatternWithOptionalNegative}({allOperatorsEscaped}+{numberSubPatternWithOptionalNegative})+\)").IsMatch(input)) {
+    ///        //input = CalculateFirstInstanceOfNumberExponentiatedByNumberCorrectly(input);
+    ///        //input = CalculateFirstInstanceOfNumberDividedByNumber(input);
+    ///        //input = calcfir
+    ///    }
+    ///    // If is match of bracketed division:
+    ///    // If is match of bracketed multiplication:
+    ///    // If is match of bracketed addition/subtraction:
+    ///    return input
+    ///}
 }
