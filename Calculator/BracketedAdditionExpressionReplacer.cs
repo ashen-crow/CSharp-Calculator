@@ -16,6 +16,8 @@ namespace Calculator
             CreateBracketedEquationPattern(MathCalculator.escapedMultiplySign);
         public static readonly Regex bracketedNumberDividedByNumberPattern =
             CreateBracketedEquationPattern(MathCalculator.escapedDivideSign);
+        public static readonly Regex bracketedNumberExponentiatedByNumberPattern =
+            CreateBracketedEquationPattern(MathCalculator.escapedExponentiationSign);
 
         private static Regex CreateBracketedEquationPattern(string escapedOperator)
         {
@@ -64,6 +66,17 @@ namespace Calculator
                 BasicEquationMatchers.numberPlusNumberWithOptionalFirstNegativeNumberPattern,
                 "+",
                 MathsUtils.AddStringifiedNumbers
+            );
+        }
+
+        public static string ReplaceFirstInstanceOfBracketedSubtractionExpression(string input)
+        {
+            return RenameMeImAParameterisedBracketsCalcFunc(
+                input,
+                bracketedNumberMinusNumberPattern,
+                BasicEquationMatchers.numberMinusNumberPattern,
+                "-",
+                MathsUtils.SubtractStringifiedNumbers
             );
         }
 
@@ -174,7 +187,13 @@ namespace Calculator
                         matchStringified,
                         equation
                     );
-                    string[] numbers = equation.Split(nonEscapedOperatorToSplit);
+                    string[] numbers = equation
+                        .Split(nonEscapedOperatorToSplit)
+                        .Where(n =>
+                        {
+                            return !string.IsNullOrWhiteSpace(n);
+                        })
+                        .ToArray();
                     string result = transformationFunction(numbers[0], numbers[1]).ToString();
                     var resolvedBracketedExpression =
                         ReplacerUtility.ReplaceOnlyFirstInstanceOfSubstring(

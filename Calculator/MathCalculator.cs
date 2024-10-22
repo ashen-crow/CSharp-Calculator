@@ -23,7 +23,7 @@ public static class MathCalculator
     public static readonly string escapedDivideSign = @"\/";
     public static readonly string escapedModuloSign = @"\%";
     public static readonly string escapedExponentiationSign = @"\^";
-    public static readonly string allOperatorsEscaped = @"[\+\-\*\/%]";
+    public static readonly string allOperatorsEscaped = @"[\+\-\*\/%\^]";
 
     public static bool MatchesAnyMathsExpression(string input)
     {
@@ -124,6 +124,7 @@ public static class MathCalculator
     {
         // Additions and subtractions apparently have equal precedence
         //and are resolved by order of appearance
+        input = ReplacerUtility.FlattenRepeatedPlusSigns(input);
 
         // TODO: enable negative numbers here, or simply sanitise the ++, --, -+, +-
         var basicAdditionPattern = new Regex(

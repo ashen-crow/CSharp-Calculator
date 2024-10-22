@@ -116,6 +116,15 @@ public static class ReplacerUtility
         );
     }
 
+    public static string FlattenRepatedMinusSigns(string input)
+    {
+        return ReplaceAllInstancesOfPattern(
+            input,
+            BasicEquationMatchers.repeatedMinusSignPattern,
+            "-"
+        );
+    }
+
     public static string RemoveLeadingMinusSignNoChecks(string input)
     {
         if (input[0] == '-')

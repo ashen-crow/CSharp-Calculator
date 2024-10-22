@@ -96,8 +96,33 @@ public class CalculateBracketedExpressionsTests
     }
 
     [TestMethod]
-    public void CalculateFirstInstanceOfBracketedSubtractionExpression()
+    [DataRow("20/(2-3)", "20/(-1)")]
+    [DataRow("5+(3-2)", "5+(1)")]
+    [DataRow("(4-5)-8", "(-1)-8")]
+    [DataRow("12+(7+(3-9))", "12+(7+(-6))")]
+    [DataRow("((10-15)-3)-2", "((-5)-3)-2")]
+    [DataRow("30-(8+(2-1))", "30-(8+(1))")]
+    [DataRow("20+(25-(8+(5-7)))", "20+(25-(8+(-2)))")]
+    [DataRow("10^(6+(3-7))", "10^(6+(-4))")]
+    [DataRow("((9-4)-(8-6))", "((5)-(8-6))")]
+    [DataRow("25+(6+(9+(1-2)))", "25+(6+(9+(-1)))")]
+    [DataRow("25+(6+(9+(20--30)))", "25+(6+(9+(50)))")]
+    [DataRow("((50-30)-(10-5))+4", "((20)-(10-5))+4")]
+    [DataRow("50^(6+(3-9))", "50^(6+(-6))")]
+    [DataRow("15+(6+(10-5))-4", "15+(6+(5))-4")]
+    [DataRow("(8+(5+(2-3)))+(12+4)", "(8+(5+(-1)))+(12+4)")]
+    [DataRow("(8+(5+(2--3)))+(12+4)", "(8+(5+(5)))+(12+4)")]
+    [DataRow("(8+(5+(-2--3)))+(12+4)", "(8+(5+(5)))+(12+4)")]
+    [DataRow("((3-5)+(4-6))-(7+(1-2))", "((-2)+(4-6))-(7+(1-2))")]
+    public void CalculateFirstInstanceOfBracketedSubtractionExpression(
+        string input,
+        string expected
+    )
     {
-        Assert.Fail();
+        var actual =
+            BracketedAdditionExpressionReplacer.ReplaceFirstInstanceOfBracketedSubtractionExpression(
+                input
+            );
+        Assert.AreEqual(expected, actual);
     }
 }

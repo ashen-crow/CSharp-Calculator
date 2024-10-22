@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 namespace Calculator;
@@ -17,6 +16,9 @@ public static class BasicEquationMatchers
 
     public static readonly Regex repeatedPlusSignPattern = new Regex(
         $@"{MathCalculator.escapedPlusSign}+"
+    );
+    public static readonly Regex repeatedMinusSignPattern = new Regex(
+        $@"{MathCalculator.escapedMinusSign}+"
     );
 
     public static readonly Regex numberMultipliedByNumberPattern = CreateBasicEquationPattern(
