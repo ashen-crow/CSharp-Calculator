@@ -52,6 +52,7 @@ public static class MathCalculator
             result = CalculateSingleNumberUnaryMathsFunctions.CalculateSingleNumberAbsolutes(
                 result
             );
+            result = CalculateAllInstancesOfSingleNumberAbsolute(result);
             result = CalculateBasicEquationAbsolutes(result);
             result = CalculateSingleNumberUnaryMathsFunctions.CalculateSingleNumberSquareRoots(
                 result
@@ -280,6 +281,16 @@ public static class MathCalculator
             substringToReplace,
             result.ToString()
         );
+        return input;
+    }
+
+    public static string CalculateAllInstancesOfSingleNumberAbsolute(string input)
+    {
+        while (BasicEquationMatchers.IsMatchOfSingleNumberAbsolute(input))
+        {
+            input = CalculateFirstInstanceOfSingleNumberAbsolute(input);
+            Console.WriteLine(input);
+        }
         return input;
     }
 

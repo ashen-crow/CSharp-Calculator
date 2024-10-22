@@ -55,7 +55,7 @@ public class AbsolutesTests
     [DataRow("ABS(ABS(ABS(-20)))", "20")]
     public void ConcentricAbsStillCalculatesAbs(string input, string expected)
     {
-        var actual = MathCalculator.CalculateBasicEquationAbsolutes(input);
+        var actual = MathCalculator.CalculateAllInstancesOfSingleNumberAbsolute(input);
         Assert.AreEqual(expected, actual);
     }
 
