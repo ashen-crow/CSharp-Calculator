@@ -10,7 +10,7 @@ namespace Tests
         [DataRow("(-20)", "-20")]
         public void SimplifiesBracketedOrphanNumber(string input, string expected)
         {
-            var actual = MathCalculator.SimplifyBracketedOrphanedNumber(input);
+            var actual = MathCalculator.ReplaceFirstInstaceOfBracketedOrphanedNumber(input);
             Assert.AreEqual(expected, actual);
         }
 
@@ -19,7 +19,7 @@ namespace Tests
         [DataRow("ABS(-20)", "ABS(-20)")]
         public void DoesNotSimplifyUnaryMathsFunctions(string input, string expected)
         {
-            var actual = MathCalculator.SimplifyBracketedOrphanedNumber(input);
+            var actual = MathCalculator.ReplaceFirstInstaceOfBracketedOrphanedNumber(input);
             Assert.AreEqual(expected, actual);
         }
 

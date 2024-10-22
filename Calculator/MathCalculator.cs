@@ -115,7 +115,7 @@ public static class MathCalculator
     {
         while (BasicEquationMatchers.IsMatchOfBracketedOrphanedNumber(input))
         {
-            input = SimplifyBracketedOrphanedNumber(input);
+            input = ReplaceFirstInstaceOfBracketedOrphanedNumber(input);
         }
         return input;
     }
@@ -376,14 +376,16 @@ public static class MathCalculator
         return input;
     }
 
-    public static string SimplifyBracketedOrphanedNumber(string input)
+    public static string ReplaceFirstInstaceOfBracketedOrphanedNumber(string input)
     {
         if (BasicEquationMatchers.IsMatchOfBracketedOrphanedNumber(input))
         {
             string firstMatch = BasicEquationMatchers
                 .bracketedOrphanedNumberPattern.Match(input)
                 .Value;
-            input = ReplacerUtility.RemoveOutermostBrackets(firstMatch);
+            string result = ReplacerUtility.RemoveOutermostBrackets(firstMatch);
+            input = ReplacerUtility.ReplaceOnlyFirstInstanceOfSubstring(input, firstMatch, result);
+            //input = ReplacerUtility.RemoveOutermostBrackets(firstMatch);
         }
         return input;
     }
